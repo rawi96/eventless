@@ -13,6 +13,7 @@ import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
 import { NavLink } from '@/components/NavLink'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
 function MobileNavLink({
   href,
@@ -83,6 +84,23 @@ function MobileNavigation() {
 }
 
 export function Header() {
+  const { data: session, status } = useSession()
+
+  const userAvatar = session?.user?.image ? (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={session.user.image}
+      alt={session.user.name || 'User Avatar'}
+      className="h-10 w-10 rounded-full object-cover"
+    />
+  ) : (
+    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-500">
+      <span className="text-lg font-medium leading-none text-white">
+        {session?.user?.name?.[0] || 'U'}
+      </span>
+    </span>
+  )
+
   return (
     <header className="py-10">
       <Container>
@@ -98,14 +116,37 @@ export function Header() {
             </div>
           </div>
           <div className="flex items-center gap-x-5 md:gap-x-8">
-            <div className="hidden md:block">
-              <NavLink href="/login">Sign in</NavLink>
-            </div>
-            <Button href="/register" color="blue">
-              <span>
-                Get started <span className="hidden lg:inline">today</span>
-              </span>
-            </Button>
+            {status === 'authenticated' ? (
+              <>
+                <Link href="/events" className="flex items-center gap-x-5">
+                  {userAvatar}
+                  <div>
+                    <p className="text-sm font-medium">
+                      {session.user?.name || 'User'}
+                    </p>
+                  </div>
+                </Link>
+                <Button color="blue" onClick={() => signOut()}>
+                  Sign out
+                </Button>
+              </>
+            ) : (
+              <>
+                <div className="hidden md:block">
+                  <button
+                    onClick={() => signIn('google')}
+                    className="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                  >
+                    Sign in
+                  </button>
+                </div>
+                <Button color="blue" onClick={() => signIn('google')}>
+                  <span>
+                    Get started <span className="hidden lg:inline">today</span>
+                  </span>
+                </Button>
+              </>
+            )}
             <div className="-mr-1 md:hidden">
               <MobileNavigation />
             </div>

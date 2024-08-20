@@ -1,7 +1,10 @@
+'use client'
+
 import clsx from 'clsx'
 
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
+import { signIn } from 'next-auth/react'
 
 function SwirlyDoodle(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -54,14 +57,12 @@ function Plan({
   name,
   price,
   description,
-  href,
   features,
   featured = false,
 }: {
   name: string
   price: string
   description: string
-  href: string
   features: Array<string>
   featured?: boolean
 }) {
@@ -99,8 +100,7 @@ function Plan({
         ))}
       </ul>
       <Button
-        href={href}
-        variant={featured ? 'solid' : 'outline'}
+        onClick={() => signIn('google')}
         color="white"
         className="mt-8"
         aria-label={`Get started with the ${name} plan for ${price}`}
@@ -137,7 +137,6 @@ export function Pricing() {
             name="Starter"
             price="$29"
             description="Ideal for small events or organizations just getting started."
-            href="/register"
             features={[
               'Host up to 100 attendees',
               'Basic event management features',
@@ -151,7 +150,6 @@ export function Pricing() {
             name="Pro"
             price="$79"
             description="Perfect for growing businesses with recurring events."
-            href="/register"
             features={[
               'Host up to 500 attendees',
               'Advanced event management features',
@@ -166,7 +164,6 @@ export function Pricing() {
             name="Enterprise"
             price="Custom Pricing"
             description="Tailored solutions for large-scale events and enterprises."
-            href="/register"
             features={[
               'Unlimited attendees',
               'Full suite of event management tools',

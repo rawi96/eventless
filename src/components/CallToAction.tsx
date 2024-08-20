@@ -28,7 +28,9 @@ export function CallToAction() {
             unlock powerful tools to streamline your operations and engage your
             audience.
           </p>
-          <Button href="/register" color="white" className="mt-10">
+          <Button 
+          
+           color="white" className="mt-10">
             Start Your Free Trial
           </Button>
         </div>

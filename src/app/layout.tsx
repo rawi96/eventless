@@ -3,6 +3,7 @@ import { Inter, Lexend } from 'next/font/google'
 import clsx from 'clsx'
 
 import '@/styles/tailwind.css'
+import { NextAuthProvider } from '@/providers/NextAuthProvider'
 
 export const metadata: Metadata = {
   title: {
@@ -39,7 +40,9 @@ export default function RootLayout({
         lexend.variable,
       )}
     >
-      <body className="flex h-full flex-col">{children}</body>
+      <NextAuthProvider>
+        <body className="flex h-full flex-col">{children}</body>
+      </NextAuthProvider>
     </html>
   )
 }
