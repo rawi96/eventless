@@ -3,16 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "npm run db:generate-client && npm run db:apply-migrations && next dev",
+    "build": "npm run db:generate-client && next build",
+    "start": "npm run db:apply-migrations && next start",
+    "lint": "next lint",
+    "db:generate-client": "prisma generate",
+    "db:generate-migration": "prisma migrate dev",
+    "db:apply-migrations": "prisma migrate deploy"
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {
     "@headlessui/react": "^2.1.0",
     "@headlessui/tailwindcss": "^0.2.0",
     "@heroicons/react": "^2.1.5",
+    "@prisma/client": "^5.18.0",
     "@tailwindcss/forms": "^0.5.3",
     "@types/node": "^20.10.8",
     "@types/react": "^18.2.47",
@@ -31,6 +35,7 @@
     "eslint-config-next": "^14.0.4",
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.5",
+    "prisma": "^5.18.0",
     "sharp": "0.33.1"
   }
 }
