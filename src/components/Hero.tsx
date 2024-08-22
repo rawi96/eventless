@@ -30,7 +30,11 @@ export function Hero() {
         Customize, integrate, and control every aspect of your events with ease.
       </p>
       <div className="mt-10 flex justify-center gap-x-6">
-        <Button onClick={() => signIn('google')}>Get 6 months free</Button>
+        <Button
+          onClick={() => signIn('google', { callbackUrl: '/application' })}
+        >
+          Get 6 months free
+        </Button>
         <Button
           href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
           variant="outline"

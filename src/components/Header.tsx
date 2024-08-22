@@ -76,8 +76,6 @@ function MobileNavigation() {
         <MobileNavLink href="#features">Features</MobileNavLink>
         <MobileNavLink href="#testimonials">Testimonials</MobileNavLink>
         <MobileNavLink href="#pricing">Pricing</MobileNavLink>
-        <hr className="m-2 border-slate-300/40" />
-        <MobileNavLink href="/login">Sign in</MobileNavLink>
       </PopoverPanel>
     </Popover>
   )
@@ -92,6 +90,7 @@ export function Header() {
       src={session.user.image}
       alt={session.user.name || 'User Avatar'}
       className="h-10 w-10 rounded-full object-cover"
+      loading="lazy"
     />
   ) : (
     <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-500">
@@ -106,7 +105,7 @@ export function Header() {
       <Container>
         <nav className="relative z-50 flex justify-between">
           <div className="flex items-center md:gap-x-12">
-            <Link href="#" aria-label="Home">
+            <Link href="/" aria-label="Home">
               <Logo className="h-10 w-auto" />
             </Link>
             <div className="hidden md:flex md:gap-x-6">
@@ -117,35 +116,22 @@ export function Header() {
           </div>
           <div className="flex items-center gap-x-5 md:gap-x-8">
             {status === 'authenticated' ? (
-              <>
-                <Link href="/events" className="flex items-center gap-x-5">
-                  {userAvatar}
-                  <div>
-                    <p className="text-sm font-medium">
-                      {session.user?.name || 'User'}
-                    </p>
-                  </div>
-                </Link>
-                <Button color="blue" onClick={() => signOut()}>
-                  Sign out
-                </Button>
-              </>
-            ) : (
-              <>
-                <div className="hidden md:block">
-                  <button
-                    onClick={() => signIn('google')}
-                    className="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-                  >
-                    Sign in
-                  </button>
+              <Link href="/dashboard" className="flex items-center">
+                {userAvatar}
+                <div className="ml-3 hidden md:block">
+                  <p className="text-sm font-medium">
+                    {session.user?.name || 'User'}
+                  </p>
+                  <p className="text-xs text-gray-500">Go to dashboard</p>
                 </div>
-                <Button color="blue" onClick={() => signIn('google')}>
-                  <span>
-                    Get started <span className="hidden lg:inline">today</span>
-                  </span>
-                </Button>
-              </>
+              </Link>
+            ) : (
+              <Button
+                color="blue"
+                onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+              >
+                <span>Sign In</span>
+              </Button>
             )}
             <div className="-mr-1 md:hidden">
               <MobileNavigation />

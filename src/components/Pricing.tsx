@@ -100,7 +100,7 @@ function Plan({
         ))}
       </ul>
       <Button
-        onClick={() => signIn('google')}
+        onClick={() => signIn('google', { callbackUrl: '/application' })}
         color="white"
         className="mt-8"
         aria-label={`Get started with the ${name} plan for ${price}`}
