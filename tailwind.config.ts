@@ -1,6 +1,6 @@
-import headlessuiPlugin from '@headlessui/tailwindcss'
-import formsPlugin from '@tailwindcss/forms'
-import { type Config } from 'tailwindcss'
+import headlessuiPlugin from '@headlessui/tailwindcss';
+import formsPlugin from '@tailwindcss/forms';
+import { type Config } from 'tailwindcss';
 
 export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
@@ -34,4 +34,4 @@ export default {
     },
   },
   plugins: [formsPlugin, headlessuiPlugin],
-} satisfies Config
+} satisfies Config;

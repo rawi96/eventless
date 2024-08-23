@@ -1,16 +1,16 @@
-'use client'
+'use client';
 
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
-import clsx from 'clsx'
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
+import clsx from 'clsx';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
-import { Container } from '@/components/Container'
-import backgroundImage from '@/images/background-features.jpg'
-import screenshotExpenses from '@/images/screenshots/expenses.png'
-import screenshotPayroll from '@/images/screenshots/payroll.png'
-import screenshotReporting from '@/images/screenshots/reporting.png'
-import screenshotVatReturns from '@/images/screenshots/vat-returns.png'
+import { Container } from '@/components/Container';
+import backgroundImage from '@/images/background-features.jpg';
+import screenshotExpenses from '@/images/screenshots/expenses.png';
+import screenshotPayroll from '@/images/screenshots/payroll.png';
+import screenshotReporting from '@/images/screenshots/reporting.png';
+import screenshotVatReturns from '@/images/screenshots/vat-returns.png';
 
 const features = [
   {
@@ -37,27 +37,25 @@ const features = [
       'Gain deep insights into your events with our advanced analytics tools. Track engagement, monitor performance, and export data for further analysis with ease.',
     image: screenshotReporting,
   },
-]
+];
 
 export function PrimaryFeatures() {
-  let [tabOrientation, setTabOrientation] = useState<'horizontal' | 'vertical'>(
-    'horizontal',
-  )
+  let [tabOrientation, setTabOrientation] = useState<'horizontal' | 'vertical'>('horizontal');
 
   useEffect(() => {
-    let lgMediaQuery = window.matchMedia('(min-width: 1024px)')
+    let lgMediaQuery = window.matchMedia('(min-width: 1024px)');
 
     function onMediaQueryChange({ matches }: { matches: boolean }) {
-      setTabOrientation(matches ? 'vertical' : 'horizontal')
+      setTabOrientation(matches ? 'vertical' : 'horizontal');
     }
 
-    onMediaQueryChange(lgMediaQuery)
-    lgMediaQuery.addEventListener('change', onMediaQueryChange)
+    onMediaQueryChange(lgMediaQuery);
+    lgMediaQuery.addEventListener('change', onMediaQueryChange);
 
     return () => {
-      lgMediaQuery.removeEventListener('change', onMediaQueryChange)
-    }
-  }, [])
+      lgMediaQuery.removeEventListener('change', onMediaQueryChange);
+    };
+  }, []);
 
   return (
     <section
@@ -79,8 +77,7 @@ export function PrimaryFeatures() {
             Everything you need to manage your events.
           </h2>
           <p className="mt-6 text-lg tracking-tight text-blue-100">
-            Whether you&apos;re hosting a small workshop or a large-scale
-            conference, our headless EMS has got you covered.
+            Whether you&apos;re hosting a small workshop or a large-scale conference, our headless EMS has got you covered.
           </p>
         </div>
         <TabGroup
@@ -117,9 +114,7 @@ export function PrimaryFeatures() {
                       <p
                         className={clsx(
                           'mt-2 hidden text-sm lg:block',
-                          selectedIndex === featureIndex
-                            ? 'text-white'
-                            : 'text-blue-100 group-hover:text-white',
+                          selectedIndex === featureIndex ? 'text-white' : 'text-blue-100 group-hover:text-white',
                         )}
                       >
                         {feature.description}
@@ -133,9 +128,7 @@ export function PrimaryFeatures() {
                   <TabPanel key={feature.title} unmount={false}>
                     <div className="relative sm:px-6 lg:hidden">
                       <div className="absolute -inset-x-4 bottom-[-4.25rem] top-[-6.5rem] bg-white/10 ring-1 ring-inset ring-white/10 sm:inset-x-0 sm:rounded-t-xl" />
-                      <p className="relative mx-auto max-w-2xl text-base text-white sm:text-center">
-                        {feature.description}
-                      </p>
+                      <p className="relative mx-auto max-w-2xl text-base text-white sm:text-center">{feature.description}</p>
                     </div>
                     <div className="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
                       <Image
@@ -154,5 +147,5 @@ export function PrimaryFeatures() {
         </TabGroup>
       </Container>
     </section>
-  )
+  );
 }

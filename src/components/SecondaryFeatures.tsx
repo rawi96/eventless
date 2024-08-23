@@ -1,20 +1,20 @@
-'use client'
+'use client';
 
-import { Container } from '@/components/Container'
-import screenshotContacts from '@/images/screenshots/contacts.png'
-import screenshotInventory from '@/images/screenshots/inventory.png'
-import screenshotProfitLoss from '@/images/screenshots/profit-loss.png'
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
-import clsx from 'clsx'
-import Image, { type ImageProps } from 'next/image'
-import { useId } from 'react'
+import { Container } from '@/components/Container';
+import screenshotContacts from '@/images/screenshots/contacts.png';
+import screenshotInventory from '@/images/screenshots/inventory.png';
+import screenshotProfitLoss from '@/images/screenshots/profit-loss.png';
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
+import clsx from 'clsx';
+import Image, { type ImageProps } from 'next/image';
+import { useId } from 'react';
 
 interface Feature {
-  name: React.ReactNode
-  summary: string
-  description: string
-  image: ImageProps['src']
-  icon: React.ComponentType
+  name: React.ReactNode;
+  summary: string;
+  description: string;
+  image: ImageProps['src'];
+  icon: React.ComponentType;
 }
 
 const features: Array<Feature> = [
@@ -25,18 +25,11 @@ const features: Array<Feature> = [
       'Stay ahead with live analytics that track attendee engagement, ticket sales, and user activity across your platform. Make data-driven decisions on the fly.',
     image: screenshotProfitLoss,
     icon: function AnalyticsIcon() {
-      let id = useId()
+      let id = useId();
       return (
         <>
           <defs>
-            <linearGradient
-              id={id}
-              x1="11.5"
-              y1={18}
-              x2={36}
-              y2="15.5"
-              gradientUnits="userSpaceOnUse"
-            >
+            <linearGradient id={id} x1="11.5" y1={18} x2={36} y2="15.5" gradientUnits="userSpaceOnUse">
               <stop offset=".194" stopColor="#fff" />
               <stop offset={1} stopColor="#0EA5E9" />
             </linearGradient>
@@ -49,7 +42,7 @@ const features: Array<Feature> = [
             strokeLinejoin="round"
           />
         </>
-      )
+      );
     },
   },
   {
@@ -61,22 +54,11 @@ const features: Array<Feature> = [
     icon: function IntegrationsIcon() {
       return (
         <>
-          <path
-            opacity=".5"
-            d="M10 16a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1v-2Z"
-            fill="#fff"
-          />
-          <path
-            opacity=".3"
-            d="M10 22a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1v-2Z"
-            fill="#fff"
-          />
-          <path
-            d="M10 10a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1v-2Z"
-            fill="#fff"
-          />
+          <path opacity=".5" d="M10 16a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1v-2Z" fill="#fff" />
+          <path opacity=".3" d="M10 22a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1v-2Z" fill="#fff" />
+          <path d="M10 10a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1v-2Z" fill="#fff" />
         </>
-      )
+      );
     },
   },
   {
@@ -98,10 +80,10 @@ const features: Array<Feature> = [
             fill="#fff"
           />
         </>
-      )
+      );
     },
   },
-]
+];
 
 function Feature({
   feature,
@@ -109,38 +91,21 @@ function Feature({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<'div'> & {
-  feature: Feature
-  isActive: boolean
+  feature: Feature;
+  isActive: boolean;
 }) {
   return (
-    <div
-      className={clsx(className, !isActive && 'opacity-75 hover:opacity-100')}
-      {...props}
-    >
-      <div
-        className={clsx(
-          'w-9 rounded-lg',
-          isActive ? 'bg-blue-600' : 'bg-slate-500',
-        )}
-      >
+    <div className={clsx(className, !isActive && 'opacity-75 hover:opacity-100')} {...props}>
+      <div className={clsx('w-9 rounded-lg', isActive ? 'bg-blue-600' : 'bg-slate-500')}>
         <svg aria-hidden="true" className="h-9 w-9" fill="none">
           <feature.icon />
         </svg>
       </div>
-      <h3
-        className={clsx(
-          'mt-6 text-sm font-medium',
-          isActive ? 'text-blue-600' : 'text-slate-600',
-        )}
-      >
-        {feature.name}
-      </h3>
-      <p className="mt-2 font-display text-xl text-slate-900">
-        {feature.summary}
-      </p>
+      <h3 className={clsx('mt-6 text-sm font-medium', isActive ? 'text-blue-600' : 'text-slate-600')}>{feature.name}</h3>
+      <p className="mt-2 font-display text-xl text-slate-900">{feature.summary}</p>
       <p className="mt-4 text-sm text-slate-600">{feature.description}</p>
     </div>
-  )
+  );
 }
 
 function FeaturesMobile() {
@@ -152,18 +117,13 @@ function FeaturesMobile() {
           <div className="relative mt-10 pb-10">
             <div className="absolute -inset-x-4 bottom-0 top-8 bg-slate-200 sm:-inset-x-6" />
             <div className="relative mx-auto w-[52.75rem] overflow-hidden rounded-xl bg-white shadow-lg shadow-slate-900/5 ring-1 ring-slate-500/10">
-              <Image
-                className="w-full"
-                src={feature.image}
-                alt=""
-                sizes="52.75rem"
-              />
+              <Image className="w-full" src={feature.image} alt="" sizes="52.75rem" />
             </div>
           </div>
         </div>
       ))}
     </div>
-  )
+  );
 }
 
 function FeaturesDesktop() {
@@ -203,12 +163,7 @@ function FeaturesDesktop() {
                   aria-hidden={featureIndex !== selectedIndex}
                 >
                   <div className="w-[52.75rem] overflow-hidden rounded-xl bg-white shadow-lg shadow-slate-900/5 ring-1 ring-slate-500/10">
-                    <Image
-                      className="w-full"
-                      src={feature.image}
-                      alt=""
-                      sizes="52.75rem"
-                    />
+                    <Image className="w-full" src={feature.image} alt="" sizes="52.75rem" />
                   </div>
                 </TabPanel>
               ))}
@@ -218,7 +173,7 @@ function FeaturesDesktop() {
         </>
       )}
     </TabGroup>
-  )
+  );
 }
 
 export function SecondaryFeatures() {
@@ -234,13 +189,12 @@ export function SecondaryFeatures() {
             Simplify everyday business tasks.
           </h2>
           <p className="mt-4 text-lg tracking-tight text-slate-700">
-            Because you’d probably be a little confused if we suggested you
-            complicate your everyday business tasks instead.
+            Because you’d probably be a little confused if we suggested you complicate your everyday business tasks instead.
           </p>
         </div>
         <FeaturesMobile />
         <FeaturesDesktop />
       </Container>
     </section>
-  )
+  );
 }

@@ -14,9 +14,10 @@ datasource db {
 }
 
 model Event {
-  id     String @id @default(cuid())
-  title  String
-  userId String
+  id          String @id @default(cuid())
+  title       String
+  description String
+  userId      String
 
   @@map("event")
 }

@@ -1,32 +1,21 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import {
-  Popover,
-  PopoverButton,
-  PopoverBackdrop,
-  PopoverPanel,
-} from '@headlessui/react'
-import clsx from 'clsx'
+import Link from 'next/link';
+import { Popover, PopoverButton, PopoverBackdrop, PopoverPanel } from '@headlessui/react';
+import clsx from 'clsx';
 
-import { Button } from '@/components/Button'
-import { Container } from '@/components/Container'
-import { Logo } from '@/components/Logo'
-import { NavLink } from '@/components/NavLink'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { Button } from '@/components/Button';
+import { Container } from '@/components/Container';
+import { Logo } from '@/components/Logo';
+import { NavLink } from '@/components/NavLink';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
-function MobileNavLink({
-  href,
-  children,
-}: {
-  href: string
-  children: React.ReactNode
-}) {
+function MobileNavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <PopoverButton as={Link} href={href} className="block w-full p-2">
       {children}
     </PopoverButton>
-  )
+  );
 }
 
 function MobileNavIcon({ open }: { open: boolean }) {
@@ -38,22 +27,10 @@ function MobileNavIcon({ open }: { open: boolean }) {
       strokeWidth={2}
       strokeLinecap="round"
     >
-      <path
-        d="M0 1H14M0 7H14M0 13H14"
-        className={clsx(
-          'origin-center transition',
-          open && 'scale-90 opacity-0',
-        )}
-      />
-      <path
-        d="M2 2L12 12M12 2L2 12"
-        className={clsx(
-          'origin-center transition',
-          !open && 'scale-90 opacity-0',
-        )}
-      />
+      <path d="M0 1H14M0 7H14M0 13H14" className={clsx('origin-center transition', open && 'scale-90 opacity-0')} />
+      <path d="M2 2L12 12M12 2L2 12" className={clsx('origin-center transition', !open && 'scale-90 opacity-0')} />
     </svg>
-  )
+  );
 }
 
 function MobileNavigation() {
@@ -78,11 +55,11 @@ function MobileNavigation() {
         <MobileNavLink href="#pricing">Pricing</MobileNavLink>
       </PopoverPanel>
     </Popover>
-  )
+  );
 }
 
 export function Header() {
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession();
 
   const userAvatar = session?.user?.image ? (
     // eslint-disable-next-line @next/next/no-img-element
@@ -94,11 +71,9 @@ export function Header() {
     />
   ) : (
     <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-500">
-      <span className="text-lg font-medium leading-none text-white">
-        {session?.user?.name?.[0] || 'U'}
-      </span>
+      <span className="text-lg font-medium leading-none text-white">{session?.user?.name?.[0] || 'U'}</span>
     </span>
-  )
+  );
 
   return (
     <header className="py-10">
@@ -116,20 +91,15 @@ export function Header() {
           </div>
           <div className="flex items-center gap-x-5 md:gap-x-8">
             {status === 'authenticated' ? (
-              <Link href="/dashboard" className="flex items-center">
+              <Link href="/application/dashboard" className="flex items-center">
                 {userAvatar}
                 <div className="ml-3 hidden md:block">
-                  <p className="text-sm font-medium">
-                    {session.user?.name || 'User'}
-                  </p>
+                  <p className="text-sm font-medium">{session.user?.name || 'User'}</p>
                   <p className="text-xs text-gray-500">Go to dashboard</p>
                 </div>
               </Link>
             ) : (
-              <Button
-                color="blue"
-                onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
-              >
+              <Button color="blue" onClick={() => signIn('google', { callbackUrl: '/application/dashboard' })}>
                 <span>Sign In</span>
               </Button>
             )}
@@ -140,5 +110,5 @@ export function Header() {
         </nav>
       </Container>
     </header>
-  )
+  );
 }

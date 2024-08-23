@@ -1,14 +1,13 @@
-import Image from 'next/image'
+import Image from 'next/image';
 
-import { Container } from '@/components/Container'
-import backgroundImage from '@/images/background-faqs.jpg'
+import { Container } from '@/components/Container';
+import backgroundImage from '@/images/background-faqs.jpg';
 
 const faqs = [
   [
     {
       question: 'What types of events can Eventless manage?',
-      answer:
-        'Eventless is versatile and can handle everything from small meetings to large conferences and festivals.',
+      answer: 'Eventless is versatile and can handle everything from small meetings to large conferences and festivals.',
     },
     {
       question: 'Can I integrate Eventless with other tools?',
@@ -46,8 +45,7 @@ const faqs = [
     },
     {
       question: 'Are there any setup fees?',
-      answer:
-        'No, Eventless does not charge setup fees. You only pay for the plan that best suits your event needs.',
+      answer: 'No, Eventless does not charge setup fees. You only pay for the plan that best suits your event needs.',
     },
     {
       question: 'Can I schedule a demo of Eventless?',
@@ -55,15 +53,11 @@ const faqs = [
         'Yes, you can schedule a demo with one of our representatives to see Eventless in action and get answers to any specific questions you may have.',
     },
   ],
-]
+];
 
 export function Faqs() {
   return (
-    <section
-      id="faq"
-      aria-labelledby="faq-title"
-      className="relative overflow-hidden bg-slate-50 py-20 sm:py-32"
-    >
+    <section id="faq" aria-labelledby="faq-title" className="relative overflow-hidden bg-slate-50 py-20 sm:py-32">
       <Image
         className="absolute left-1/2 top-0 max-w-none -translate-y-1/4 translate-x-[-30%]"
         src={backgroundImage}
@@ -74,29 +68,20 @@ export function Faqs() {
       />
       <Container className="relative">
         <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2
-            id="faq-title"
-            className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl"
-          >
+          <h2 id="faq-title" className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
             Frequently Asked Questions
           </h2>
           <p className="mt-4 text-lg tracking-tight text-slate-700">
-            If you have more questions or need further assistance, please reach
-            out to our support team for help.
+            If you have more questions or need further assistance, please reach out to our support team for help.
           </p>
         </div>
-        <ul
-          role="list"
-          className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:max-w-none lg:grid-cols-3"
-        >
+        <ul role="list" className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:max-w-none lg:grid-cols-3">
           {faqs.map((column, columnIndex) => (
             <li key={columnIndex}>
               <ul role="list" className="flex flex-col gap-y-8">
                 {column.map((faq, faqIndex) => (
                   <li key={faqIndex}>
-                    <h3 className="font-display text-lg leading-7 text-slate-900">
-                      {faq.question}
-                    </h3>
+                    <h3 className="font-display text-lg leading-7 text-slate-900">{faq.question}</h3>
                     <p className="mt-4 text-sm text-slate-700">{faq.answer}</p>
                   </li>
                 ))}
@@ -106,5 +91,5 @@ export function Faqs() {
         </ul>
       </Container>
     </section>
-  )
+  );
 }

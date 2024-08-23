@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import Image from 'next/image'
+import Image from 'next/image';
 
-import { Button } from '@/components/Button'
-import { Container } from '@/components/Container'
-import logoSmartive from '@/images/logos/smartive.svg'
-import { signIn } from 'next-auth/react'
+import { Button } from '@/components/Button';
+import { Container } from '@/components/Container';
+import logoSmartive from '@/images/logos/smartive.svg';
+import { signIn } from 'next-auth/react';
 
 export function Hero() {
   return (
@@ -26,23 +26,13 @@ export function Hero() {
         and Awesome.
       </h1>
       <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">
-        Our headless Event Management System puts you in the driver’s seat.
-        Customize, integrate, and control every aspect of your events with ease.
+        Our headless Event Management System puts you in the driver’s seat. Customize, integrate, and control every aspect of
+        your events with ease.
       </p>
       <div className="mt-10 flex justify-center gap-x-6">
-        <Button
-          onClick={() => signIn('google', { callbackUrl: '/application' })}
-        >
-          Get 6 months free
-        </Button>
-        <Button
-          href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-          variant="outline"
-        >
-          <svg
-            aria-hidden="true"
-            className="h-3 w-3 flex-none fill-blue-600 group-active:fill-current"
-          >
+        <Button onClick={() => signIn('google', { callbackUrl: '/application/dahboard' })}>Get 6 months free</Button>
+        <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" variant="outline">
+          <svg aria-hidden="true" className="h-3 w-3 flex-none fill-blue-600 group-active:fill-current">
             <path d="m9.997 6.91-7.583 3.447A1 1 0 0 1 1 9.447V2.553a1 1 0 0 1 1.414-.91L9.997 5.09c.782.355.782 1.465 0 1.82Z" />
           </svg>
           <span className="ml-3">Watch video</span>
@@ -54,28 +44,19 @@ export function Hero() {
           role="list"
           className="mt-8 flex items-center justify-center gap-x-8 sm:flex-col sm:gap-x-0 sm:gap-y-10 xl:flex-row xl:gap-x-12 xl:gap-y-0"
         >
-          {[[{ name: 'Smartive', logo: logoSmartive }]].map(
-            (group, groupIndex) => (
-              <li key={groupIndex}>
-                <ul
-                  role="list"
-                  className="flex flex-col items-center gap-y-8 sm:flex-row sm:gap-x-12 sm:gap-y-0"
-                >
-                  {group.map((company) => (
-                    <li key={company.name} className="flex">
-                      <Image
-                        src={company.logo}
-                        alt={company.name}
-                        unoptimized
-                      />
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ),
-          )}
+          {[[{ name: 'Smartive', logo: logoSmartive }]].map((group, groupIndex) => (
+            <li key={groupIndex}>
+              <ul role="list" className="flex flex-col items-center gap-y-8 sm:flex-row sm:gap-x-12 sm:gap-y-0">
+                {group.map((company) => (
+                  <li key={company.name} className="flex">
+                    <Image src={company.logo} alt={company.name} unoptimized />
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
         </ul>
       </div>
     </Container>
-  )
+  );
 }

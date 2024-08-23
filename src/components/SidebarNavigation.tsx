@@ -1,11 +1,6 @@
-'use client'
+'use client';
 
-import {
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  TransitionChild,
-} from '@headlessui/react'
+import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react';
 import {
   Bars3Icon,
   CalendarIcon,
@@ -15,12 +10,12 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
-} from '@heroicons/react/24/outline'
-import clsx from 'clsx'
-import { signOut, useSession } from 'next-auth/react'
-import Link from 'next/link'
-import { useState } from 'react'
-import { Logo } from './Logo'
+} from '@heroicons/react/24/outline';
+import clsx from 'clsx';
+import { signOut, useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { useState } from 'react';
+import { Logo } from './Logo';
 
 const navigation = [
   { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
@@ -29,15 +24,15 @@ const navigation = [
   { name: 'Projects', href: '#', icon: FolderIcon, current: false },
   { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
   { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
-]
+];
 
 type Props = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
 export default function SidebarNavigation({ children }: Props) {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { data: session } = useSession()
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data: session } = useSession();
 
   const userAvatar = session?.user?.image ? (
     // eslint-disable-next-line @next/next/no-img-element
@@ -49,20 +44,14 @@ export default function SidebarNavigation({ children }: Props) {
     />
   ) : (
     <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-500">
-      <span className="text-lg font-medium leading-none text-white">
-        {session?.user?.name?.[0] || 'U'}
-      </span>
+      <span className="text-lg font-medium leading-none text-white">{session?.user?.name?.[0] || 'U'}</span>
     </span>
-  )
+  );
 
   return (
     <>
       <div>
-        <Dialog
-          open={sidebarOpen}
-          onClose={setSidebarOpen}
-          className="relative z-50 lg:hidden"
-        >
+        <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
           <DialogBackdrop
             transition
             className="fixed inset-0 bg-gray-900/80 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
@@ -75,16 +64,9 @@ export default function SidebarNavigation({ children }: Props) {
             >
               <TransitionChild>
                 <div className="absolute left-full top-0 flex w-16 justify-center pt-5 duration-300 ease-in-out data-[closed]:opacity-0">
-                  <button
-                    type="button"
-                    onClick={() => setSidebarOpen(false)}
-                    className="-m-2.5 p-2.5"
-                  >
+                  <button type="button" onClick={() => setSidebarOpen(false)} className="-m-2.5 p-2.5">
                     <span className="sr-only">Close sidebar</span>
-                    <XMarkIcon
-                      aria-hidden="true"
-                      className="h-6 w-6 text-white"
-                    />
+                    <XMarkIcon aria-hidden="true" className="h-6 w-6 text-white" />
                   </button>
                 </div>
               </TransitionChild>
@@ -113,9 +95,7 @@ export default function SidebarNavigation({ children }: Props) {
                               <item.icon
                                 aria-hidden="true"
                                 className={clsx(
-                                  item.current
-                                    ? 'text-blue-600'
-                                    : 'text-gray-400 group-hover:text-blue-600',
+                                  item.current ? 'text-blue-600' : 'text-gray-400 group-hover:text-blue-600',
                                   'h-6 w-6 shrink-0',
                                 )}
                               />
@@ -150,18 +130,14 @@ export default function SidebarNavigation({ children }: Props) {
                         <a
                           href={item.href}
                           className={clsx(
-                            item.current
-                              ? 'bg-gray-50 text-blue-600'
-                              : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600',
+                            item.current ? 'bg-gray-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600',
                             'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                           )}
                         >
                           <item.icon
                             aria-hidden="true"
                             className={clsx(
-                              item.current
-                                ? 'text-blue-600'
-                                : 'text-gray-400 group-hover:text-blue-600',
+                              item.current ? 'text-blue-600' : 'text-gray-400 group-hover:text-blue-600',
                               'h-6 w-6 shrink-0',
                             )}
                           />
@@ -174,10 +150,7 @@ export default function SidebarNavigation({ children }: Props) {
 
                 <li className="-mx-6 mt-auto flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50">
                   {userAvatar}
-                  <button
-                    onClick={() => signOut({ callbackUrl: '/' })}
-                    className="ml-3 text-gray-700 hover:text-gray-900"
-                  >
+                  <button onClick={() => signOut({ callbackUrl: '/' })} className="ml-3 text-gray-700 hover:text-gray-900">
                     Sign out
                   </button>
                 </li>
@@ -187,17 +160,11 @@ export default function SidebarNavigation({ children }: Props) {
         </div>
 
         <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-white px-4 py-4 shadow-sm sm:px-6 lg:hidden">
-          <button
-            type="button"
-            onClick={() => setSidebarOpen(true)}
-            className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
-          >
+          <button type="button" onClick={() => setSidebarOpen(true)} className="-m-2.5 p-2.5 text-gray-700 lg:hidden">
             <span className="sr-only">Open sidebar</span>
             <Bars3Icon aria-hidden="true" className="h-6 w-6" />
           </button>
-          <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
-            Dashboard
-          </div>
+          <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">Dashboard</div>
           <div className="flex items-center gap-x-4">
             {userAvatar}
             {session ? (
@@ -208,9 +175,7 @@ export default function SidebarNavigation({ children }: Props) {
                 Sign out
               </button>
             ) : (
-              <span className="text-sm font-medium text-gray-700">
-                Not signed in
-              </span>
+              <span className="text-sm font-medium text-gray-700">Not signed in</span>
             )}
           </div>
         </div>
@@ -220,5 +185,5 @@ export default function SidebarNavigation({ children }: Props) {
         </main>
       </div>
     </>
-  )
+  );
 }
