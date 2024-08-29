@@ -1,7 +1,8 @@
-import { Event, Prisma } from '@prisma/client';
+import { Event } from '@prisma/client';
 import { getServerSession, Session } from 'next-auth';
-import { authOptions } from '../auth-options';
+import { CustomFieldInput, QuestionInput } from '../actions/update-event-action';
 import { prisma } from '../prisma/prisma';
+import { authOptions } from '../auth-options';
 
 export const getEventsBySession = async (session: Session | null) => {
   if (!session?.user.id) {
@@ -43,13 +44,14 @@ export const createNewEvent = async (session: Session | null): Promise<Event | n
   });
 };
 
-export const updateEvent = async (event: Event, customFields: Prisma.CustomFieldCreateWithoutEventInput[]) => {
+export const updateEvent = async (event: Event, customFields: CustomFieldInput[], questions: QuestionInput[]) => {
   const session = await getServerSession(authOptions);
 
   if (!session?.user.id) {
     return null;
   }
 
+  // Update the event with custom fields and questions
   const updatedEvent = await prisma.event.update({
     where: {
       id: event.id,
@@ -61,10 +63,19 @@ export const updateEvent = async (event: Event, customFields: Prisma.CustomField
       eventDate: event.eventDate,
       registrationEndDate: event.registrationEndDate,
       customFields: {
-        deleteMany: {}, // First, clear existing custom fields to avoid duplicates
-        create: customFields.map((field) => ({
-          name: field.name,
-          value: field.value,
+        deleteMany: {}, // Clear existing custom fields to avoid duplicates
+        create: customFields.map(({ name, value }) => ({
+          name,
+          value,
+        })),
+      },
+      questions: {
+        deleteMany: {}, // Clear existing questions
+        create: questions.map(({ questionText, type, attributes, isRequired }) => ({
+          questionText,
+          type,
+          attributes,
+          isRequired,
         })),
       },
     },
