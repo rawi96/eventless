@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, DELETE, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET',
 };
 
 const validateAuthorizationHeader = (authorizationHeader: string | null) => {
