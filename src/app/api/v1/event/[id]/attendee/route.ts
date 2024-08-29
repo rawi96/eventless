@@ -1,7 +1,7 @@
 import { createAttendee, existsAttandeeForEvent, getEventsById } from '@/server/services/events-service';
 import { Attendee } from '@prisma/client';
 import { NextApiResponse } from 'next';
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 type ErrorMessage = {
   code: string;
@@ -32,30 +32,39 @@ const validateAuthorizationHeader = async (authorizationHeader: string | null) =
   }
 };
 
-export async function POST(req: NextRequest, res: NextApiResponse<ResponseData>, context: { params: { id: string } }) {
+export async function POST(req: NextRequest, context: { params: { id: string } }) {
   const decodedBearerToken = validateAuthorizationHeader(req.headers.get('Authorization'));
   if (!decodedBearerToken) {
-    return res.status(401).json({ code: 'UNAUTHORIZED', message: `Your API Key is invalid.` });
+    return NextResponse.json({ code: 'UNAUTHORIZED', message: `Your API Key is invalid.` }, { status: 401 });
   }
 
   try {
     const event = await getEventsById(context.params.id);
     if (!event) {
-      return res.status(400).json({ code: 'NOT_FOUND', message: `Event with id ${context.params.id} not found` });
+      return NextResponse.json(
+        { code: 'NOT_FOUND', message: `Event with id ${context.params.id} not found` },
+        { status: 400 },
+      );
     }
 
     if (event.registrationEndDate && event.registrationEndDate < new Date()) {
-      return res.status(401).json({
-        code: 'REGISTRATION_EXCEEDED',
-        message: `Registration is not possible anymore. deadline ended on ${event.registrationEndDate}`,
-      });
+      return NextResponse.json(
+        {
+          code: 'REGISTRATION_EXCEEDED',
+          message: `Registration is not possible anymore. deadline ended on ${event.registrationEndDate}`,
+        },
+        { status: 400 },
+      );
     }
 
     const registration = (await req.json()) as Registration;
 
     const existingAttendee = await existsAttandeeForEvent(event.id, registration.email);
     if (existingAttendee) {
-      return res.status(400).json({ code: 'ALREADY_REGISTERED', message: `You are already registered for this event` });
+      return NextResponse.json(
+        { code: 'ALREADY_REGISTERED', message: `You are already registered for this event` },
+        { status: 400 },
+      );
     }
 
     const answeredRequiredQuestions = event.questions
@@ -63,18 +72,24 @@ export async function POST(req: NextRequest, res: NextApiResponse<ResponseData>,
       .every((question) => registration.answers.some((answer) => answer.questionId === question.id));
 
     if (!answeredRequiredQuestions) {
-      return res.status(400).json({ code: 'MISSING_REQUIRED_ANSWERS', message: `Please answer all required questions` });
+      return NextResponse.json(
+        { code: 'MISSING_REQUIRED_ANSWERS', message: `Please answer all required questions` },
+        { status: 400 },
+      );
     }
 
     // create attandee
     const attendee = await createAttendee(event.id, registration.email, registration.answers);
 
-    return res.status(200).json(attendee);
+    return NextResponse.json(attendee, { status: 200 });
   } catch (e) {
     console.error(e, 'Error getting event by id');
-    return res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
-      message: `please wait a moment and try again`,
-    });
+    return NextResponse.json(
+      {
+        code: 'INTERNAL_SERVER_ERROR',
+        message: `please wait a moment and try again`,
+      },
+      { status: 500 },
+    );
   }
 }
