@@ -1,13 +1,5 @@
 import { createAttendee, existsAttandeeForEvent, getEventsById } from '@/server/services/events-service';
-import { Attendee } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
-
-type ErrorMessage = {
-  code: string;
-  message: string;
-};
-
-type ResponseData = Attendee | ErrorMessage;
 
 type Registration = {
   email: string;

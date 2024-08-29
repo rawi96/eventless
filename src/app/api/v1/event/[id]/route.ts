@@ -1,13 +1,5 @@
 import { getEventsById } from '@/server/services/events-service';
-import { Event } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
-
-type ErrorMessage = {
-  code: string;
-  message: string;
-};
-
-type ResponseData = Event | ErrorMessage;
 
 const validateAuthorizationHeader = async (authorizationHeader: string | null) => {
   try {
