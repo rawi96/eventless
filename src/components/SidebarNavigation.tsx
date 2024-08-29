@@ -1,38 +1,33 @@
 'use client';
 
 import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react';
-import {
-  Bars3Icon,
-  CalendarIcon,
-  ChartPieIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
+import { Bars3Icon, CalendarIcon, HomeIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Logo } from './Logo';
 
-const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Events', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Team', href: '#', icon: UsersIcon, current: false },
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
-];
+type NavigationItem = {
+  name: string;
+  href: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  current: boolean;
+};
 
 type Props = {
   children: React.ReactNode;
+  currentPage: string; // New prop to indicate the current page
 };
 
-export default function SidebarNavigation({ children }: Props) {
+export default function SidebarNavigation({ children, currentPage }: Props) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
+
+  const navigation: NavigationItem[] = [
+    { name: 'Dashboard', href: '/application/dashboard', icon: HomeIcon, current: currentPage === 'Dashboard' },
+    { name: 'Events', href: '/application/events', icon: CalendarIcon, current: currentPage === 'Events' },
+  ];
 
   const userAvatar = session?.user?.image ? (
     // eslint-disable-next-line @next/next/no-img-element
@@ -164,7 +159,7 @@ export default function SidebarNavigation({ children }: Props) {
             <span className="sr-only">Open sidebar</span>
             <Bars3Icon aria-hidden="true" className="h-6 w-6" />
           </button>
-          <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">Dashboard</div>
+          <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">{currentPage}</div>
           <div className="flex items-center gap-x-4">
             {userAvatar}
             {session ? (

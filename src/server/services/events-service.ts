@@ -1,5 +1,7 @@
-import { Session } from 'next-auth';
+import { getServerSession, Session } from 'next-auth';
 import { prisma } from '../prisma/prisma';
+import { Event } from '@prisma/client';
+import { authOptions } from '../auth-options';
 
 export const getEventsBySession = async (session: Session | null) => {
   if (!session?.user.id) {
@@ -29,21 +31,52 @@ export const getEventsWhereRegistrationIsPossible = async () => {
   });
 };
 
-export const createRandomEvent = async (session: Session | null) => {
-  const randomNum = Math.floor(Math.random() * 100);
+export const createNewEvent = async (session: Session | null): Promise<Event | null> => {
   if (!session?.user.id) {
     return null;
   }
   return await prisma.event.create({
     data: {
-      title: 'Random Event',
-      description: `#${randomNum}`,
+      title: 'New Event',
       userId: session.user.id,
     },
   });
 };
 
-export const getEventsById = async (id: string) => {
+export const updateEvent = async (event: Event) => {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user.id) {
+    return null;
+  }
+
+  return await prisma.event.update({
+    where: {
+      id: event.id,
+    },
+    data: {
+      title: event.title,
+      description: event.description,
+      shortDescription: event.shortDescription,
+      eventDate: event.eventDate,
+      registrationEndDate: event.registrationEndDate,
+    },
+  });
+};
+
+export const createEvent = async (session: Session | null, event: Event) => {
+  if (!session?.user.id) {
+    return null;
+  }
+  return await prisma.event.create({
+    data: {
+      ...event,
+      userId: session.user.id,
+    },
+  });
+};
+
+export const getEventById = async (id: string) => {
   return await prisma.event.findUnique({
     where: {
       id: id,

@@ -1,4 +1,4 @@
-import { getEventsById } from '@/server/services/events-service';
+import { getEventById } from '@/server/services/events-service';
 import { NextRequest, NextResponse } from 'next/server';
 
 const validateAuthorizationHeader = (authorizationHeader: string | null) => {
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
   }
 
   try {
-    const event = await getEventsById(context.params.id);
+    const event = await getEventById(context.params.id);
     if (!event) {
       return NextResponse.json(
         { code: 'NOT_FOUND', message: `Event with id ${context.params.id} not found` },

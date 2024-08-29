@@ -1,5 +1,13 @@
-import { createAttendee, existsAttandeeForEvent, getEventsById } from '@/server/services/events-service';
+import { createAttendee, existsAttandeeForEvent, getEventById } from '@/server/services/events-service';
+import { Attendee } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
+
+type ErrorMessage = {
+  code: string;
+  message: string;
+};
+
+type ResponseData = Attendee | ErrorMessage;
 
 type Registration = {
   email: string;
@@ -30,7 +38,7 @@ export async function POST(req: NextRequest, context: { params: { id: string } }
   }
 
   try {
-    const event = await getEventsById(context.params.id);
+    const event = await getEventById(context.params.id);
     if (!event) {
       return NextResponse.json(
         { code: 'NOT_FOUND', message: `Event with id ${context.params.id} not found` },

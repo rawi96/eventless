@@ -3,7 +3,7 @@ import formsPlugin from '@tailwindcss/forms';
 import { type Config } from 'tailwindcss';
 
 export default {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './node_modules/flowbite/**/*.js'],
   theme: {
     fontSize: {
       xs: ['0.75rem', { lineHeight: '1rem' }],
@@ -33,5 +33,5 @@ export default {
       },
     },
   },
-  plugins: [formsPlugin, headlessuiPlugin],
+  plugins: [formsPlugin, headlessuiPlugin, require('@tailwindcss/forms'), require('flowbite/plugin')],
 } satisfies Config;
