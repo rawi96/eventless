@@ -14,10 +14,72 @@ datasource db {
 }
 
 model Event {
-  id          String @id @default(cuid())
-  title       String
-  description String
-  userId      String
+  id                  String        @id @default(cuid())
+  title               String
+  description         String?
+  shortDescription    String?
+  eventDate           DateTime?
+  registrationEndDate DateTime?
+  isClosed            Boolean?      @default(false)
+  userId              String
+  customFields        CustomField[]
+  questions           Question[]
+  attendees           Attendee[]
+  createdAt           DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt           DateTime?     @updatedAt @db.Timestamptz(3)
 
   @@map("event")
+}
+
+model CustomField {
+  id        String    @id @default(cuid())
+  name      String
+  value     String
+  eventId   String
+  event     Event     @relation(fields: [eventId], references: [id])
+  createdAt DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime? @updatedAt @db.Timestamptz(3)
+
+  @@map("custom_field")
+}
+
+model Question {
+  id           String    @id @default(cuid())
+  questionText String
+  type         String
+  attributes   String
+  name         String
+  isRequired   Boolean
+  eventId      String
+  event        Event     @relation(fields: [eventId], references: [id])
+  answers      Answer[]
+  createdAt    DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime? @updatedAt @db.Timestamptz(3)
+
+  @@map("question")
+}
+
+model Answer {
+  id         String    @id @default(cuid())
+  answerText String
+  questionId String
+  question   Question  @relation(fields: [questionId], references: [id])
+  attendeeId String
+  attendee   Attendee  @relation(fields: [attendeeId], references: [id])
+  createdAt  DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt  DateTime? @updatedAt @db.Timestamptz(3)
+
+  @@map("answer")
+}
+
+model Attendee {
+  id        String    @id @default(cuid())
+  email     String
+  eventId   String
+  event     Event     @relation(fields: [eventId], references: [id])
+  answers   Answer[]
+  createdAt DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime? @updatedAt @db.Timestamptz(3)
+
+  @@map("attendee")
 }
