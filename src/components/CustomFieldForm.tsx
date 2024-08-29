@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { TrashIcon } from '@heroicons/react/20/solid'; // Import the Trash icon
 
 type CustomField = {
   name: string;
@@ -57,49 +58,46 @@ export default function CustomFieldForm({ customFields, onCustomFieldChange, onN
           <p className="mt-1 text-sm leading-6 text-gray-600">Add custom fields to your event.</p>
 
           {fields.map((field, index) => (
-            <div key={index} className="mt-6 flex items-end gap-x-4 sm:grid-cols-6">
-              <div className="flex-grow">
-                <label htmlFor={`name-${index}`} className="block text-sm font-medium leading-6 text-gray-900">
-                  Field Name
-                </label>
-                <div className="mt-2">
-                  <input
-                    id={`name-${index}`}
-                    name="name"
-                    value={field.name}
-                    onChange={(e) => handleFieldChange(index, e)}
-                    type="text"
-                    placeholder="Field Name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-
-              <div className="flex-grow">
-                <label htmlFor={`value-${index}`} className="block text-sm font-medium leading-6 text-gray-900">
-                  Field Value
-                </label>
-                <div className="mt-2">
-                  <input
-                    id={`value-${index}`}
-                    name="value"
-                    value={field.value}
-                    onChange={(e) => handleFieldChange(index, e)}
-                    type="text"
-                    placeholder="Field Value"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-
-              <div className="flex-shrink-0">
-                <button
-                  type="button"
-                  onClick={() => removeCustomField(index)}
-                  className="text-sm font-semibold leading-6 text-red-600"
-                >
-                  Remove
+            <div key={index} className="relative mt-6 flex flex-col gap-y-4 rounded-lg bg-gray-100 p-4 shadow-sm">
+              <div className="absolute right-2 top-2">
+                <button type="button" onClick={() => removeCustomField(index)} className="text-gray-500 hover:text-gray-700">
+                  <TrashIcon className="h-5 w-5" />
                 </button>
+              </div>
+              <div className="flex items-center gap-x-4">
+                <div className="flex-grow">
+                  <label htmlFor={`name-${index}`} className="block text-sm font-medium leading-6 text-gray-900">
+                    Field Name
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id={`name-${index}`}
+                      name="name"
+                      value={field.name}
+                      onChange={(e) => handleFieldChange(index, e)}
+                      type="text"
+                      placeholder="Field Name"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex-grow">
+                  <label htmlFor={`value-${index}`} className="block text-sm font-medium leading-6 text-gray-900">
+                    Field Value
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id={`value-${index}`}
+                      name="value"
+                      value={field.value}
+                      onChange={(e) => handleFieldChange(index, e)}
+                      type="text"
+                      placeholder="Field Value"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           ))}

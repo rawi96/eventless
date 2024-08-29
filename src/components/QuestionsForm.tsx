@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { TrashIcon } from '@heroicons/react/20/solid'; // Import the Trash icon
 
 type Question = {
   questionText: string;
@@ -133,20 +134,29 @@ export default function QuestionsForm({ questions, onQuestionChange, onPrev, onS
           <p className="mt-1 text-sm leading-6 text-gray-600">Please add your questions below.</p>
 
           {questionList.map((question, index) => (
-            <div key={index} className="mt-6 flex flex-col gap-y-4">
-              <div>
-                <label htmlFor={`questionText-${index}`} className="block text-sm font-medium leading-6 text-gray-900">
-                  Question
-                </label>
-                <input
-                  id={`questionText-${index}`}
-                  name="questionText"
-                  value={question.questionText}
-                  onChange={(e) => handleQuestionChange(index, e)}
-                  type="text"
-                  placeholder="Your question"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+            <div key={index} className="relative mt-6 flex flex-col gap-y-4 rounded-lg bg-gray-100 p-4 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div className="flex-1">
+                  <label htmlFor={`questionText-${index}`} className="block text-sm font-medium leading-6 text-gray-900">
+                    Question
+                  </label>
+                  <input
+                    id={`questionText-${index}`}
+                    name="questionText"
+                    value={question.questionText}
+                    onChange={(e) => handleQuestionChange(index, e)}
+                    type="text"
+                    placeholder="Your question"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeQuestion(index)}
+                  className="absolute right-2 top-2 p-1 text-red-600 hover:text-red-800"
+                >
+                  <TrashIcon className="h-5 w-5" />
+                </button>
               </div>
 
               <div>
@@ -179,9 +189,9 @@ export default function QuestionsForm({ questions, onQuestionChange, onPrev, onS
                       <button
                         type="button"
                         onClick={() => removeOption(index, optionIndex)}
-                        className="text-sm font-semibold leading-6 text-red-600"
+                        className="text-red-600 hover:text-red-800"
                       >
-                        Remove
+                        <TrashIcon className="h-5 w-5" />
                       </button>
                     </div>
                   ))}
@@ -194,14 +204,6 @@ export default function QuestionsForm({ questions, onQuestionChange, onPrev, onS
                   </button>
                 </>
               )}
-
-              <button
-                type="button"
-                onClick={() => removeQuestion(index)}
-                className="text-sm font-semibold leading-6 text-red-600"
-              >
-                Remove Question
-              </button>
             </div>
           ))}
 
