@@ -116,7 +116,7 @@ export const getFullEventById = async (id: string) => {
     include: {
       questions: true,
       customFields: true,
-      attendees: true
+      attendees: { include: { answers: true } },
     },
   });
 };
