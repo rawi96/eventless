@@ -47,8 +47,7 @@ model Question {
   id           String    @id @default(cuid())
   questionText String
   type         String
-  attributes   String
-  name         String
+  attributes   String?
   isRequired   Boolean
   eventId      String
   event        Event     @relation(fields: [eventId], references: [id])
