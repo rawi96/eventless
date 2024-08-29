@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type CustomField = {
   name: string;
@@ -6,40 +6,47 @@ type CustomField = {
 };
 
 type Props = {
-  formData: any;
-  onFieldChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onNext: (updatedFormData: any) => void;
+  customFields: CustomField[];
+  onCustomFieldChange: (updatedCustomFields: CustomField[]) => void;
+  onNext: () => void;
   onPrev: () => void;
 };
 
-export default function CustomFieldForm({ formData, onFieldChange, onNext, onPrev }: Props) {
-  const [customFields, setCustomFields] = useState<CustomField[]>([{ name: '', value: '' }]);
+export default function CustomFieldForm({ customFields, onCustomFieldChange, onNext, onPrev }: Props) {
+  const [fields, setFields] = useState<CustomField[]>(customFields);
+
+  useEffect(() => {
+    setFields(customFields);
+  }, [customFields]);
 
   const handleFieldChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    const fields = [...customFields];
-    fields[index] = {
-      ...fields[index],
+    const updatedFields = [...fields];
+    updatedFields[index] = {
+      ...updatedFields[index],
       [name]: value,
     };
-    setCustomFields(fields);
+    setFields(updatedFields);
+    onCustomFieldChange(updatedFields);
   };
 
   const addCustomField = () => {
-    setCustomFields([...customFields, { name: '', value: '' }]);
+    const updatedFields = [...fields, { name: '', value: '' }];
+    setFields(updatedFields);
+    onCustomFieldChange(updatedFields);
   };
 
   const removeCustomField = (index: number) => {
-    const fields = [...customFields];
-    fields.splice(index, 1);
-    setCustomFields(fields);
+    const updatedFields = [...fields];
+    updatedFields.splice(index, 1);
+    setFields(updatedFields);
+    onCustomFieldChange(updatedFields);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const updatedFormData = { ...formData, customFields };
-    onNext(updatedFormData);
+    onNext();
   };
 
   return (
@@ -49,7 +56,7 @@ export default function CustomFieldForm({ formData, onFieldChange, onNext, onPre
           <h2 className="text-base font-semibold leading-7 text-gray-900">Custom Fields</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">Add custom fields to your event.</p>
 
-          {customFields.map((field, index) => (
+          {fields.map((field, index) => (
             <div key={index} className="mt-6 flex items-end gap-x-4 sm:grid-cols-6">
               <div className="flex-grow">
                 <label htmlFor={`name-${index}`} className="block text-sm font-medium leading-6 text-gray-900">

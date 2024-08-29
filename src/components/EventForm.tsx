@@ -20,13 +20,17 @@ export default function EventForm({ event }: Props) {
     shortDescription: event.shortDescription || '',
     eventDate: '',
     registrationEndDate: '',
-    customField: '',
+    customField: [{ name: 'this', value: 'is sparta' }],
     question: '',
   });
 
   const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCustomFieldChange = (customFields: { name: string; value: string }[]) => {
+    setFormData((prev) => ({ ...prev, customField: customFields }));
   };
 
   const handleNextStep = () => {
@@ -39,7 +43,10 @@ export default function EventForm({ event }: Props) {
       finalFormData.append('short-description', formData.shortDescription);
       finalFormData.append('event-date', formData.eventDate);
       finalFormData.append('registration-end-date', formData.registrationEndDate);
-      finalFormData.append('customField', formData.customField);
+      formData.customField.forEach((field, index) => {
+        finalFormData.append(`customFieldName-${index}`, field.name);
+        finalFormData.append(`customFieldValue-${index}`, field.value);
+      });
       finalFormData.append('question', formData.question);
 
       updateEventAction(finalFormData, event);
@@ -62,8 +69,8 @@ export default function EventForm({ event }: Props) {
 
       {currentStep === 2 && (
         <CustomFieldForm
-          formData={formData}
-          onFieldChange={handleFieldChange}
+          customFields={formData.customField}
+          onCustomFieldChange={handleCustomFieldChange}
           onNext={handleNextStep}
           onPrev={handlePrevStep}
         />
