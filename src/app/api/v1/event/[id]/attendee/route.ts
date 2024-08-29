@@ -1,6 +1,5 @@
 import { createAttendee, existsAttandeeForEvent, getEventsById } from '@/server/services/events-service';
 import { Attendee } from '@prisma/client';
-import { NextApiResponse } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
 
 type ErrorMessage = {

@@ -1,6 +1,5 @@
 import { getEventsById } from '@/server/services/events-service';
 import { Event } from '@prisma/client';
-import { NextApiResponse } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
 
 type ErrorMessage = {
