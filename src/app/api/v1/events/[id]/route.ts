@@ -1,6 +1,11 @@
 import { getEventById } from '@/server/services/events-service';
 import { NextRequest, NextResponse } from 'next/server';
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, DELETE, OPTIONS',
+};
+
 const validateAuthorizationHeader = (authorizationHeader: string | null) => {
   try {
     console.error('authorizationHeader', authorizationHeader);
@@ -18,7 +23,10 @@ const validateAuthorizationHeader = (authorizationHeader: string | null) => {
 export async function GET(req: NextRequest, context: { params: { id: string } }) {
   const decodedBearerToken = validateAuthorizationHeader(req.headers.get('Authorization'));
   if (!decodedBearerToken) {
-    return NextResponse.json({ code: 'UNAUTHORIZED', message: `Your API Key is invalid.` }, { status: 401 });
+    return NextResponse.json(
+      { code: 'UNAUTHORIZED', message: `Your API Key is invalid.` },
+      { status: 401, headers: CORS_HEADERS },
+    );
   }
 
   try {
@@ -26,7 +34,7 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
     if (!event) {
       return NextResponse.json(
         { code: 'NOT_FOUND', message: `Event with id ${context.params.id} not found` },
-        { status: 400 },
+        { status: 400, headers: CORS_HEADERS },
       );
     }
 
@@ -37,7 +45,7 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
     //   });
     // }
 
-    return NextResponse.json(event, { status: 200 });
+    return NextResponse.json(event, { status: 200, headers: CORS_HEADERS });
   } catch (e) {
     console.error(e, 'Error getting event by id');
     return NextResponse.json(
@@ -45,7 +53,7 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
         code: 'INTERNAL_SERVER_ERROR',
         message: `please wait a moment and try again`,
       },
-      { status: 500 },
+      { status: 500, headers: CORS_HEADERS },
     );
   }
 }
