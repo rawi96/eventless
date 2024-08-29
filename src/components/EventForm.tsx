@@ -20,7 +20,7 @@ export default function EventForm({ event }: Props) {
     shortDescription: event.shortDescription || '',
     eventDate: '',
     registrationEndDate: '',
-    customField: [{ name: 'this', value: 'is sparta' }],
+    customField: [{ name: '', value: '' }],
     questions: [{ questionText: '', type: 'text', attributes: '', isRequired: false }],
   });
 
