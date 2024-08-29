@@ -1,8 +1,9 @@
 import { getEventsById } from '@/server/services/events-service';
 import { NextRequest, NextResponse } from 'next/server';
 
-const validateAuthorizationHeader = async (authorizationHeader: string | null) => {
+const validateAuthorizationHeader = (authorizationHeader: string | null) => {
   try {
+    console.error('authorizationHeader', authorizationHeader);
     if (!authorizationHeader) {
       return false;
     }

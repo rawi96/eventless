@@ -10,7 +10,7 @@ type Answer = {
   answerText: string;
 };
 
-const validateAuthorizationHeader = async (authorizationHeader: string | null) => {
+const validateAuthorizationHeader = (authorizationHeader: string | null) => {
   try {
     if (!authorizationHeader) {
       return false;
