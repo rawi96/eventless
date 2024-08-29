@@ -1,12 +1,6 @@
 import { createAttendee, existsAttandeeForEvent, getEventById } from '@/server/services/events-service';
 import { NextRequest, NextResponse } from 'next/server';
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-};
-
 type Registration = {
   email: string;
   answers: Answer[];
@@ -32,10 +26,7 @@ const validateAuthorizationHeader = (authorizationHeader: string | null) => {
 export async function POST(req: NextRequest, context: { params: { id: string } }) {
   const decodedBearerToken = validateAuthorizationHeader(req.headers.get('Authorization'));
   if (!decodedBearerToken) {
-    return NextResponse.json(
-      { code: 'UNAUTHORIZED', message: `Your API Key is invalid.` },
-      { status: 401, headers: CORS_HEADERS },
-    );
+    return NextResponse.json({ code: 'UNAUTHORIZED', message: `Your API Key is invalid.` }, { status: 401 });
   }
 
   try {
@@ -43,7 +34,7 @@ export async function POST(req: NextRequest, context: { params: { id: string } }
     if (!event) {
       return NextResponse.json(
         { code: 'NOT_FOUND', message: `Event with id ${context.params.id} not found` },
-        { status: 400, headers: CORS_HEADERS },
+        { status: 400 },
       );
     }
 
@@ -53,7 +44,7 @@ export async function POST(req: NextRequest, context: { params: { id: string } }
           code: 'REGISTRATION_EXCEEDED',
           message: `Registration is not possible anymore. deadline ended on ${event.registrationEndDate}`,
         },
-        { status: 400, headers: CORS_HEADERS },
+        { status: 400 },
       );
     }
 
@@ -63,7 +54,7 @@ export async function POST(req: NextRequest, context: { params: { id: string } }
     if (existingAttendee) {
       return NextResponse.json(
         { code: 'ALREADY_REGISTERED', message: `You are already registered for this event` },
-        { status: 400, headers: CORS_HEADERS },
+        { status: 400 },
       );
     }
 
@@ -74,7 +65,7 @@ export async function POST(req: NextRequest, context: { params: { id: string } }
     if (!answeredRequiredQuestions) {
       return NextResponse.json(
         { code: 'MISSING_REQUIRED_ANSWERS', message: `Please answer all required questions` },
-        { status: 400, headers: CORS_HEADERS },
+        { status: 400 },
       );
     }
 
@@ -89,7 +80,7 @@ export async function POST(req: NextRequest, context: { params: { id: string } }
         code: 'INTERNAL_SERVER_ERROR',
         message: `please wait a moment and try again`,
       },
-      { status: 500, headers: CORS_HEADERS },
+      { status: 500 },
     );
   }
 }
