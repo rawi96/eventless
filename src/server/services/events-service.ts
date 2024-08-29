@@ -97,6 +97,19 @@ export const getEventById = async (id: string) => {
   });
 };
 
+export const getFullEventById = async (id: string) => {
+  return await prisma.event.findUnique({
+    where: {
+      id: id,
+    },
+    include: {
+      questions: true,
+      customFields: true,
+      attendees: true
+    },
+  });
+};
+
 export const existsAttandeeForEvent = async (eventId: string, email: string) => {
   return await prisma.attendee.findFirst({
     where: {

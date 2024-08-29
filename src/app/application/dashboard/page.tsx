@@ -2,6 +2,7 @@ import SidebarNavigation from '@/components/SidebarNavigation';
 import { authOptions } from '@/server/auth-options';
 import { getEventsBySession } from '@/server/services/events-service';
 import { getServerSession } from 'next-auth';
+import Link from 'next/link';
 
 export default async function Application() {
   const session = await getServerSession(authOptions);
@@ -14,7 +15,9 @@ export default async function Application() {
         <ul>
           {events.map((event) => (
             <li key={event.id}>
-              {event.title} - {event.description}
+              <Link href={`/application/dashboard/${event.id}`}>
+                {event.title} - {event.description}
+              </Link>
             </li>
           ))}
         </ul>
