@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const validateAuthorizationHeader = (authorizationHeader: string | null) => {
   try {
-    console.error('authorizationHeader', authorizationHeader);
     if (!authorizationHeader) {
       return false;
     }
@@ -16,7 +15,7 @@ const validateAuthorizationHeader = (authorizationHeader: string | null) => {
 };
 
 export async function GET(req: NextRequest) {
-  const decodedBearerToken = validateAuthorizationHeader(req.headers.get('Authorization'));
+  const decodedBearerToken = validateAuthorizationHeader(req.headers.get('api-key'));
   if (!decodedBearerToken) {
     return NextResponse.json({ code: 'UNAUTHORIZED', message: `Your API Key is invalid.` }, { status: 401 });
   }

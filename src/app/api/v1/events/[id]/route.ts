@@ -16,7 +16,7 @@ const validateAuthorizationHeader = (authorizationHeader: string | null) => {
 };
 
 export async function GET(req: NextRequest, context: { params: { id: string } }) {
-  const decodedBearerToken = validateAuthorizationHeader(req.headers.get('Authorization'));
+  const decodedBearerToken = validateAuthorizationHeader(req.headers.get('api-key'));
   if (!decodedBearerToken) {
     return NextResponse.json({ code: 'UNAUTHORIZED', message: `Your API Key is invalid.` }, { status: 401 });
   }
