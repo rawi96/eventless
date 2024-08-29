@@ -9,10 +9,12 @@ export const updateEventAction = async (formData: FormData, event: Event) => {
     const updatedEvent: Event = {
       ...event,
       title: formData.get('title') as string,
-      description: formData.get('description') as string,
-      shortDescription: formData.get('short-description') as string,
-      eventDate: new Date(formData.get('event-date') as string),
-      registrationEndDate: new Date(formData.get('registration-end-date') as string),
+      description: formData.get('description') as string | null,
+      shortDescription: formData.get('short-description') as string | null,
+      eventDate: formData.get('event-date') ? new Date(formData.get('event-date') as string) : null,
+      registrationEndDate: formData.get('registration-end-date')
+        ? new Date(formData.get('registration-end-date') as string)
+        : null,
     };
 
     await updateEvent(updatedEvent);
