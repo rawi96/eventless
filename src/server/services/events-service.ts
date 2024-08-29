@@ -12,6 +12,23 @@ export const getEventsBySession = async (session: Session | null) => {
   });
 };
 
+export const getEventsWhereRegistrationIsPossible = async () => {
+  return await prisma.event.findMany({
+    where: {
+      OR: [
+        {
+          registrationEndDate: {
+            gt: new Date(),
+          },
+        },
+        {
+          registrationEndDate: null,
+        },
+      ],
+    },
+  });
+};
+
 export const createRandomEvent = async (session: Session | null) => {
   const randomNum = Math.floor(Math.random() * 100);
   if (!session?.user.id) {
