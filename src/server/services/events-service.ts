@@ -1,7 +1,7 @@
+import { Event, Prisma } from '@prisma/client';
 import { getServerSession, Session } from 'next-auth';
-import { prisma } from '../prisma/prisma';
-import { Event } from '@prisma/client';
 import { authOptions } from '../auth-options';
+import { prisma } from '../prisma/prisma';
 
 export const getEventsBySession = async (session: Session | null) => {
   if (!session?.user.id) {
@@ -43,14 +43,14 @@ export const createNewEvent = async (session: Session | null): Promise<Event | n
   });
 };
 
-export const updateEvent = async (event: Event) => {
+export const updateEvent = async (event: Event, customFields: Prisma.CustomFieldCreateWithoutEventInput[]) => {
   const session = await getServerSession(authOptions);
 
   if (!session?.user.id) {
     return null;
   }
 
-  return await prisma.event.update({
+  const updatedEvent = await prisma.event.update({
     where: {
       id: event.id,
     },
@@ -60,8 +60,17 @@ export const updateEvent = async (event: Event) => {
       shortDescription: event.shortDescription,
       eventDate: event.eventDate,
       registrationEndDate: event.registrationEndDate,
+      customFields: {
+        deleteMany: {}, // First, clear existing custom fields to avoid duplicates
+        create: customFields.map((field) => ({
+          name: field.name,
+          value: field.value,
+        })),
+      },
     },
   });
+
+  return updatedEvent;
 };
 
 export const createEvent = async (session: Session | null, event: Event) => {

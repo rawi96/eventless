@@ -6,6 +6,25 @@ import { Event } from '@prisma/client';
 
 export const updateEventAction = async (formData: FormData, event: Event) => {
   try {
+    // Extract custom fields from formData
+    const customFields: { name: string; value: string }[] = [];
+    let index = 0;
+
+    while (true) {
+      const fieldName = formData.get(`customFieldName-${index}`);
+      const fieldValue = formData.get(`customFieldValue-${index}`);
+      if (fieldName && fieldValue) {
+        customFields.push({
+          name: fieldName as string,
+          value: fieldValue as string,
+        });
+        index++;
+      } else {
+        break;
+      }
+    }
+
+    // Create the updated event object
     const updatedEvent: Event = {
       ...event,
       title: formData.get('title') as string,
@@ -17,7 +36,8 @@ export const updateEventAction = async (formData: FormData, event: Event) => {
         : null,
     };
 
-    await updateEvent(updatedEvent);
+    // Call the updateEvent function with the event and customFields
+    await updateEvent(updatedEvent, customFields);
 
     console.log('Event updated successfully');
   } catch (error) {
