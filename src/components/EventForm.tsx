@@ -21,7 +21,7 @@ export default function EventForm({ event }: Props) {
     eventDate: '',
     registrationEndDate: '',
     customField: [{ name: 'this', value: 'is sparta' }],
-    question: '',
+    questions: [{ questionText: '', type: 'text', attributes: '', isRequired: false }],
   });
 
   const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -31,6 +31,12 @@ export default function EventForm({ event }: Props) {
 
   const handleCustomFieldChange = (customFields: { name: string; value: string }[]) => {
     setFormData((prev) => ({ ...prev, customField: customFields }));
+  };
+
+  const handleQuestionChange = (
+    questions: { questionText: string; type: string; attributes: string; isRequired: boolean }[],
+  ) => {
+    setFormData((prev) => ({ ...prev, questions }));
   };
 
   const handleNextStep = () => {
@@ -47,7 +53,12 @@ export default function EventForm({ event }: Props) {
         finalFormData.append(`customFieldName-${index}`, field.name);
         finalFormData.append(`customFieldValue-${index}`, field.value);
       });
-      finalFormData.append('question', formData.question);
+      formData.questions.forEach((question, index) => {
+        finalFormData.append(`questionText-${index}`, question.questionText);
+        finalFormData.append(`questionType-${index}`, question.type);
+        finalFormData.append(`questionAttributes-${index}`, question.attributes || '');
+        finalFormData.append(`questionIsRequired-${index}`, String(question.isRequired));
+      });
 
       updateEventAction(finalFormData, event);
     }
@@ -78,8 +89,8 @@ export default function EventForm({ event }: Props) {
 
       {currentStep === 3 && (
         <QuestionsForm
-          formData={formData}
-          onFieldChange={handleFieldChange}
+          questions={formData.questions}
+          onQuestionChange={handleQuestionChange}
           onPrev={handlePrevStep}
           onSubmit={handleNextStep}
         />
