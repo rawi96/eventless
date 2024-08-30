@@ -34,6 +34,15 @@ export default async function Application({ params }: { params: { eventId: strin
           <div className="mt-6 border-t border-gray-100">
             <dl className="divide-y divide-gray-100">
               <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt className="text-sm font-medium leading-6 text-gray-900">Event ID</dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  {event.id}
+                  <p className="mt-2 text-sm text-gray-500">
+                    <strong>Hint:</strong> Use this ID to get event details or to register attendees via API endpoints.
+                  </p>
+                </dd>
+              </div>
+              <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt className="text-sm font-medium leading-6 text-gray-900">Title</dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{event.title}</dd>
               </div>

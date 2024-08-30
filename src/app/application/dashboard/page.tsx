@@ -2,7 +2,7 @@ import SidebarNavigation from '@/components/SidebarNavigation';
 import { authOptions } from '@/server/auth-options';
 import { getEventsBySession } from '@/server/services/events-service';
 import { getServerSession } from 'next-auth';
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import { EventCreatorButton } from '@/components/EventCreatorButton';
@@ -50,6 +50,9 @@ export default async function Application() {
                           </svg>
                           <p className="truncate">{event.description}</p>
                         </div>
+                        <p className="mt-2 text-xs text-gray-500">
+                          <strong>Event ID:</strong> {event.id}
+                        </p>
                       </div>
                       <div className="flex flex-none items-center gap-x-4">
                         <Link
