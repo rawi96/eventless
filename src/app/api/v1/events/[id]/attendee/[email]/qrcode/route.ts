@@ -181,6 +181,14 @@ export async function GET(req: NextRequest, context: { params: { id: string; ema
       height: 150,
     });
 
+    page.drawText(`Attendee: ${existingAttendee.email}`, {
+      x: 50,
+      y: 660,
+      size: fontSize,
+      font,
+      color: rgb(0, 0, 0),
+    });
+
     // Serialize the PDF document to bytes
     const pdfBytes = await pdfDoc.save();
 
