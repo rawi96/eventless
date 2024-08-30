@@ -79,6 +79,8 @@ model Attendee {
   answers   Answer[]
   createdAt DateTime  @default(now()) @db.Timestamptz(3)
   updatedAt DateTime? @updatedAt @db.Timestamptz(3)
+  qrCode    String?
+  qrCodeScanned DateTime? @db.Timestamptz(3)
 
   @@map("attendee")
 }
