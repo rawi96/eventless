@@ -12,8 +12,6 @@ const isPastDate = (date: Date | null | undefined) => {
 export default async function Application({ params }: { params: { eventId: string } }) {
   const event = await getFullEventById(params.eventId);
 
-  console.log(event);
-
   if (!event) {
     return notFound();
   }
