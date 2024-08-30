@@ -19,11 +19,11 @@ export default function QuestionsForm({ questions, onQuestionChange, onPrev, onS
   const [questionList, setQuestionList] = useState<Question[]>(questions);
   const [options, setOptions] = useState<{ [key: number]: string[] }>(
     questions.map((_, index) =>
-      questions[index].type === 'multiple-choice'
+      ['multiple-choice', 'single-select'].includes(questions[index].type)
         ? [...(questions[index].attributes ? JSON.parse(questions[index].attributes) : [])]
         : [],
     ),
-  ); // Manage options for multiple-choice
+  ); // Manage options for multiple-choice and single-select
 
   useEffect(() => {
     setQuestionList(questions);
@@ -39,8 +39,8 @@ export default function QuestionsForm({ questions, onQuestionChange, onPrev, onS
     };
     setQuestionList(updatedQuestions);
 
-    if (name === 'type' && value === 'multiple-choice') {
-      // Initialize options for new multiple-choice questions
+    if (['multiple-choice', 'single-select'].includes(value)) {
+      // Initialize options for new multiple-choice or single-select questions
       setOptions((prev) => ({
         ...prev,
         [index]: options[index] || [''], // Start with one empty option
@@ -48,7 +48,7 @@ export default function QuestionsForm({ questions, onQuestionChange, onPrev, onS
     }
 
     if (name === 'type' && value === 'text') {
-      // Clear options if question type changes from multiple-choice to text
+      // Clear options if question type changes from multiple-choice or single-select to text
       setOptions((prev) => ({
         ...prev,
         [index]: [],
@@ -108,7 +108,7 @@ export default function QuestionsForm({ questions, onQuestionChange, onPrev, onS
     setQuestionList(updatedQuestions);
     onQuestionChange(updatedQuestions);
 
-    // Initialize options for the new question if it's multiple-choice
+    // Initialize options for the new question if it's multiple-choice or single-select
     setOptions((prev) => ({
       ...prev,
       [updatedQuestions.length - 1]: [],
@@ -178,13 +178,29 @@ export default function QuestionsForm({ questions, onQuestionChange, onPrev, onS
                 >
                   <option value="text">Text</option>
                   <option value="multiple-choice">Multiple Choice</option>
+                  <option value="single-select">Single Select</option>
                 </select>
               </div>
 
-              {question.type === 'multiple-choice' && (
+              {['multiple-choice', 'single-select'].includes(question.type) && (
                 <>
                   {options[index]?.map((option, optionIndex) => (
                     <div key={optionIndex} className="flex items-center gap-x-4">
+                      {question.type === 'single-select' ? (
+                        <input
+                          type="radio"
+                          name={`single-select-${index}`}
+                          disabled
+                          className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-600"
+                        />
+                      ) : (
+                        <input
+                          type="checkbox"
+                          name={`multiple-choice-${index}-${optionIndex}`}
+                          disabled
+                          className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-600"
+                        />
+                      )}
                       <input
                         type="text"
                         value={option}
