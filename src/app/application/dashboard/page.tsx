@@ -6,6 +6,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import { EventCreatorButton } from '@/components/EventCreatorButton';
+import { EventCreatorButtonEmpty } from '@/components/EventCreatorButtonEmpty';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
@@ -68,18 +69,10 @@ export default async function Application() {
                           >
                             <MenuItem>
                               <a
-                                href="#"
+                                href={`/application/events/${event.id}`}
                                 className="block px-3 py-1 text-sm leading-6 text-gray-900 data-[focus]:bg-gray-50"
                               >
                                 Edit<span className="sr-only">, {event.title}</span>
-                              </a>
-                            </MenuItem>
-                            <MenuItem>
-                              <a
-                                href="#"
-                                className="block px-3 py-1 text-sm leading-6 text-gray-900 data-[focus]:bg-gray-50"
-                              >
-                                Move<span className="sr-only">, {event.title}</span>
                               </a>
                             </MenuItem>
                             <MenuItem>
@@ -101,27 +94,7 @@ export default async function Application() {
           </>
         ) : (
           <div className="mt-6">
-            <button
-              type="button"
-              className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
-              <svg
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 48 48"
-                aria-hidden="true"
-                className="mx-auto h-12 w-12 text-gray-400"
-              >
-                <path
-                  d="M8 14v20c0 4.418 7.163 8 16 8 1.381 0 2.721-.087 4-.252M8 14c0 4.418 7.163 8 16 8s16-3.582 16-8M8 14c0-4.418 7.163-8 16-8s16 3.582 16 8m0 0v14m0-4c0 4.418-7.163 8-16 8S8 28.418 8 24m32 10v6m0 0v6m0-6h6m-6 0h-6"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <span className="mt-2 block text-sm font-semibold text-gray-900">No Events Yet</span>
-              <span className="mt-1 block text-sm text-gray-600">Create your first event to get started.</span>
-            </button>
+            <EventCreatorButtonEmpty />
           </div>
         )}
       </div>
