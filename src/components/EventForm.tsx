@@ -15,21 +15,38 @@ type Props = {
   };
 };
 
+const defaultQuestion: Question = {
+  questionText: '',
+  type: 'text',
+  attributes: '',
+  isRequired: false,
+  id: '',
+  eventId: '',
+  createdAt: new Date(),
+  updatedAt: null,
+};
+
+console.log(defaultQuestion);
+
 export default function EventForm({ event }: Props) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     title: event.title || '',
     description: event.description || '',
     shortDescription: event.shortDescription || '',
-    eventDate: event.eventDate || '',
-    registrationEndDate: event.registrationEndDate || '',
+    eventDate: event.eventDate,
+    registrationEndDate: event.registrationEndDate,
     customField: event.customFields?.map((field) => ({ name: field.name, value: field.value })) || [{ name: '', value: '' }],
     questions: event.questions?.map((question) => ({
       questionText: question.questionText,
       type: question.type,
       attributes: question.attributes,
       isRequired: question.isRequired,
-    })) || [{ questionText: '', type: 'text', attributes: '', isRequired: false }],
+      id: question.id,
+      eventId: question.eventId,
+      createdAt: question.createdAt,
+      updatedAt: question.updatedAt,
+    })) || [defaultQuestion],
   });
 
   const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -41,9 +58,7 @@ export default function EventForm({ event }: Props) {
     setFormData((prev) => ({ ...prev, customField: customFields }));
   };
 
-  const handleQuestionChange = (
-    questions: { questionText: string; type: string; attributes: string; isRequired: boolean }[],
-  ) => {
+  const handleQuestionChange = (questions: Question[]) => {
     setFormData((prev) => ({ ...prev, questions }));
   };
 
@@ -55,8 +70,8 @@ export default function EventForm({ event }: Props) {
       finalFormData.append('title', formData.title);
       finalFormData.append('description', formData.description);
       finalFormData.append('short-description', formData.shortDescription);
-      finalFormData.append('event-date', formData.eventDate);
-      finalFormData.append('registration-end-date', formData.registrationEndDate);
+      finalFormData.append('event-date', formData.eventDate?.toDateString() || '');
+      finalFormData.append('registration-end-date', formData.registrationEndDate?.toDateString() || '');
       formData.customField.forEach((field, index) => {
         finalFormData.append(`customFieldName-${index}`, field.name);
         finalFormData.append(`customFieldValue-${index}`, field.value);

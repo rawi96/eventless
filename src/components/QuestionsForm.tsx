@@ -1,12 +1,6 @@
 import { useState, useEffect } from 'react';
 import { TrashIcon } from '@heroicons/react/20/solid'; // Import the Trash icon
-
-type Question = {
-  questionText: string;
-  type: string;
-  attributes: string; // This will hold JSON string for options
-  isRequired: boolean;
-};
+import { Question } from '@prisma/client';
 
 type Props = {
   questions: Question[];
@@ -103,7 +97,16 @@ export default function QuestionsForm({ questions, onQuestionChange, onPrev, onS
   };
 
   const addQuestion = () => {
-    const newQuestion: Question = { questionText: '', type: 'text', attributes: '', isRequired: false };
+    const newQuestion: Question = {
+      questionText: '',
+      type: 'text',
+      attributes: '',
+      isRequired: false,
+      id: '',
+      eventId: '',
+      createdAt: new Date(),
+      updatedAt: null,
+    };
     const updatedQuestions = [...questionList, newQuestion];
     setQuestionList(updatedQuestions);
     onQuestionChange(updatedQuestions);
