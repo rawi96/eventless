@@ -3,6 +3,7 @@ import { getServerSession, Session } from 'next-auth';
 import { CustomFieldInput, QuestionInput } from '../actions/update-event-action';
 import { prisma } from '../prisma/prisma';
 import { authOptions } from '../auth-options';
+import exp from 'constants';
 
 export const getEventsBySession = async (session: Session | null) => {
   if (!session?.user.id) {
@@ -142,6 +143,36 @@ export const createAttendee = async (
       answers: {
         create: answers,
       },
+    },
+  });
+};
+
+export const updateAttendeeWithHash = async (attendeeId: string, qrCode: string) => {
+  return await prisma.attendee.update({
+    where: {
+      id: attendeeId,
+    },
+    data: {
+      qrCode,
+    },
+  });
+};
+
+export const findAttendeeByHash = async (hash: string) => {
+  return await prisma.attendee.findFirst({
+    where: {
+      qrCode: hash,
+    },
+  });
+};
+
+export const updateQrCodeStatus = async (attendeeId: string) => {
+  return await prisma.attendee.update({
+    where: {
+      id: attendeeId,
+    },
+    data: {
+      qrCodeScanned: Date.now().toLocaleString(),
     },
   });
 };
