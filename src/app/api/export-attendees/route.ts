@@ -25,11 +25,22 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ message: 'Event not found' }, { status: 400 });
     }
 
+    var questionData = {} as Record<string, string>;
+
     // Map attendees data to CSV format
-    const csvData = event.attendees.map((attendee) => ({
-      Email: attendee.email,
-      'Registration Date': attendee.createdAt.toISOString(),
-    }));
+    const csvData = event.attendees.map((attendee) => {
+      // Map answers to questions by questionTex
+      event.questions.forEach((question) => {
+        questionData[question.questionText] =
+          attendee.answers.find((answer) => answer.questionId === question.id)?.answerText || '';
+      });
+      return {
+        Email: attendee.email,
+        'Registration Date': attendee.createdAt.toISOString(),
+        ...questionData,
+      };
+    });
+
 
     // Convert data to CSV using json2csv
     const csv = parse(csvData);
