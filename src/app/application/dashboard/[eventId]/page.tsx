@@ -23,17 +23,18 @@ export default async function Application({ params }: { params: { eventId: strin
         <div className="mt-6">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold text-gray-900">Event Details</h2>
-
-            <Link href={`/application/events/${event.id}`} passHref>
-              <button className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-                Edit Event
-              </button>
-            </Link>
-            <Link href={`/application/host/${event.id}`} passHref>
-              <button className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-                Show Host Page
-              </button>
-            </Link>
+            <div className="flex items-center gap-1">
+              <Link href={`/application/events/${event.id}`} passHref>
+                <button className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                  Edit Event
+                </button>
+              </Link>
+              <Link href={`/application/host/${event.id}`} passHref>
+                <button className="rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+                  Show Host Page
+                </button>
+              </Link>
+            </div>
           </div>
 
           <div className="mt-6 border-t border-gray-100">

@@ -3,8 +3,8 @@
 import { checkScanner } from '@/server/actions/scanned-qr-code';
 import { findAttendeeByHash, updateQrCodeStatus } from '@/server/services/events-service';
 import { Attendee, CustomField, Event, Question } from '@prisma/client';
-import { Html5QrcodeScanner } from 'html5-qrcode';
-import { revalidatePath } from 'next/cache';
+import { Html5Qrcode, Html5QrcodeScanner } from 'html5-qrcode';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { useEffect, useState } from 'react';
 
 type Props = {
@@ -33,7 +33,7 @@ export default function EventForm({ event }: Props) {
 
       qrScanner.render(
         (decodedText) => {
-          handleScanSuccess(decodedText);
+          handleScanSuccess(decodedText, qrScanner);
         },
         (error) => {
           console.warn('QR Code Scan Error:', error);
@@ -52,19 +52,25 @@ export default function EventForm({ event }: Props) {
   }, [scanning]);
 
   // Handle successful QR code scans
-  const handleScanSuccess = async (decodedText: string) => {
-    setScanResult(decodedText);
-    setScanning(false);
+  const handleScanSuccess = async (decodedText: string, qrScanner: Html5QrcodeScanner) => {
+    if (!scanResult) {
+      setScanResult(decodedText);
+      setScanning(false);
 
-    const result = await checkScanner(decodedText);
-    revalidatePath('');
-    console.log(result);
+      const result = await checkScanner(decodedText);
+      console.log(result);
+      // Stop the scanner after a successful scan
+      qrScanner.clear();
+    }
   };
 
   return (
     <div>
       <button
-        onClick={() => setScanning(!scanning)}
+        onClick={() => {
+          setScanning(!scanning);
+          setScanResult(null);
+        }}
         className={`${
           scanning ? 'bg-red-500' : 'bg-yellow-500'
         } rounded px-4 py-2 text-white hover:${scanning ? 'bg-red-600' : 'bg-yellow-600'}`}
