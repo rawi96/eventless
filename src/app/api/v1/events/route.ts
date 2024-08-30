@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 /**
  * @swagger
- * /api/events:
+ * /api/v1/events:
  *   get:
  *     summary: Retrieves events where registration is possible
  *     description: This endpoint returns a list of events where registration is possible. It requires a valid API key for authorization.

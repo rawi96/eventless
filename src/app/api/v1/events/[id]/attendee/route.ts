@@ -2,7 +2,7 @@ import { createAttendee, existsAttandeeForEvent, getEventById } from '@/server/s
 import { NextRequest, NextResponse } from 'next/server';
 /**
  * @swagger
- * /api/events/{id}/attendee:
+ * /api/v1/events/{id}/attendee:
  *   post:
  *     summary: Registers an attendee for an event with answers to required questions
  *     description: This endpoint registers an attendee for a specific event. It checks if the event exists, if registration is still open, if the attendee is already registered, and if all required questions have been answered. It requires a valid API key for authorization.

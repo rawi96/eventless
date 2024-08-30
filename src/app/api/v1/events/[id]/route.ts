@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 /**
  * @swagger
- * /api/events/{id}:
+ * /api/v1/events/{id}:
  *   get:
  *     summary: Retrieves details of an event by ID
  *     description: This endpoint retrieves detailed information about a specific event by its ID. It requires a valid API key for authorization.

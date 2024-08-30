@@ -9,7 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 /**
  * @swagger
- * /api/events/attendee/visit/{id}:
+ * /api/v1/events/attendee/visit/{id}:
  *   post:
  *     summary: Validates a QR code hash and updates the attendee's status
  *     description: This endpoint validates a QR code hash for an attendee at a specific event and updates the QR code status if the attendee is found. It requires a valid API key for authorization.

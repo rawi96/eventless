@@ -6,7 +6,7 @@ import QRCode from 'qrcode';
 
 /**
  * @swagger
- * /api/events/{id}/attendee/{email}/qrcode:
+ * /api/v1/events/{id}/attendee/{email}/qrcode:
  *   get:
  *     summary: Generates a PDF with event details and a QR code for a registered attendee
  *     description: This endpoint generates a PDF containing event details and a QR code for an attendee who is registered for the event. The QR code is created using a hash that includes the event ID, attendee email, and attendee ID. It requires a valid API key for authorization.

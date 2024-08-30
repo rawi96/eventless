@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/events/{id}/attendee/{email}/qrcode": {
+    "/api/v1/events/{id}/attendee/{email}/qrcode": {
       "get": {
         "summary": "Generates a PDF with event details and a QR code for a registered attendee",
         "description": "This endpoint generates a PDF containing event details and a QR code for an attendee who is registered for the event. The QR code is created using a hash that includes the event ID, attendee email, and attendee ID. It requires a valid API key for authorization.",
@@ -113,7 +113,7 @@
         }
       }
     },
-    "/api/events/{id}/attendee": {
+    "/api/v1/events/{id}/attendee": {
       "post": {
         "summary": "Registers an attendee for an event with answers to required questions",
         "description": "This endpoint registers an attendee for a specific event. It checks if the event exists, if registration is still open, if the attendee is already registered, and if all required questions have been answered. It requires a valid API key for authorization.",
@@ -279,7 +279,7 @@
         }
       }
     },
-    "/api/events/attendee/visit/{id}": {
+    "/api/v1/events/attendee/visit/{id}": {
       "post": {
         "summary": "Validates a QR code hash and updates the attendee's status",
         "description": "This endpoint validates a QR code hash for an attendee at a specific event and updates the QR code status if the attendee is found. It requires a valid API key for authorization.",
@@ -407,7 +407,7 @@
         }
       }
     },
-    "/api/events/{id}": {
+    "/api/v1/events/{id}": {
       "get": {
         "summary": "Retrieves details of an event by ID",
         "description": "This endpoint retrieves detailed information about a specific event by its ID. It requires a valid API key for authorization.",
@@ -557,7 +557,7 @@
         }
       }
     },
-    "/api/events": {
+    "/api/v1/events": {
       "get": {
         "summary": "Retrieves events where registration is possible",
         "description": "This endpoint returns a list of events where registration is possible. It requires a valid API key for authorization.",
