@@ -70,8 +70,11 @@ export default function EventForm({ event }: Props) {
       finalFormData.append('title', formData.title);
       finalFormData.append('description', formData.description);
       finalFormData.append('short-description', formData.shortDescription);
-      finalFormData.append('event-date', formData.eventDate?.toString() || '');
-      finalFormData.append('registration-end-date', formData.registrationEndDate?.toString() || '');
+      finalFormData.append('event-date', formData.eventDate ? formData.eventDate.toString() : '');
+      finalFormData.append(
+        'registration-end-date',
+        formData.registrationEndDate ? formData.registrationEndDate.toString() : '',
+      );
       formData.customField.forEach((field, index) => {
         finalFormData.append(`customFieldName-${index}`, field.name);
         finalFormData.append(`customFieldValue-${index}`, field.value);
