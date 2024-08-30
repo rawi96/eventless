@@ -17,7 +17,13 @@ type Props = {
 
 export default function QuestionsForm({ questions, onQuestionChange, onPrev, onSubmit }: Props) {
   const [questionList, setQuestionList] = useState<Question[]>(questions);
-  const [options, setOptions] = useState<{ [key: number]: string[] }>({}); // Manage options for multiple-choice
+  const [options, setOptions] = useState<{ [key: number]: string[] }>(
+    questions.map((_, index) =>
+      questions[index].type === 'multiple-choice'
+        ? [...(questions[index].attributes ? JSON.parse(questions[index].attributes) : [])]
+        : [],
+    ),
+  ); // Manage options for multiple-choice
 
   useEffect(() => {
     setQuestionList(questions);

@@ -16,7 +16,6 @@ type Props = {
 };
 
 export default function EventForm({ event }: Props) {
-  console.log(event.customFields);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     title: event.title || '',
