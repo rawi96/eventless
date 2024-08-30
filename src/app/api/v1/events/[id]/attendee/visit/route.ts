@@ -7,6 +7,93 @@ import {
 } from '@/server/services/events-service';
 import { NextRequest, NextResponse } from 'next/server';
 
+/**
+ * @swagger
+ * /api/events/attendee/visit/{id}:
+ *   post:
+ *     summary: Validates a QR code hash and updates the attendee's status
+ *     description: This endpoint validates a QR code hash for an attendee at a specific event and updates the QR code status if the attendee is found. It requires a valid API key for authorization.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the event
+ *         schema:
+ *           type: string
+ *       - in: header
+ *         name: api-key
+ *         required: true
+ *         description: API key for authorization
+ *         schema:
+ *           type: string
+ *       - in: body
+ *         name: Registration
+ *         description: The hash of the QR code used for validation
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 hash:
+ *                   type: string
+ *                   description: The hash associated with the QR code
+ *                   example: 'abcdef1234567890'
+ *     responses:
+ *       200:
+ *         description: Successfully validated the QR code and updated the attendee's status
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: OK
+ *                 message:
+ *                   type: string
+ *                   example: Thanks for visiting us.
+ *       400:
+ *         description: Bad request due to event or attendee issues
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: NOT_FOUND
+ *                 message:
+ *                   type: string
+ *                   example: Event with id {id} not found or You are not registered for this event
+ *       401:
+ *         description: Unauthorized, invalid API key
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: UNAUTHORIZED
+ *                 message:
+ *                   type: string
+ *                   example: Your API Key is invalid.
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: INTERNAL_SERVER_ERROR
+ *                 message:
+ *                   type: string
+ *                   example: please wait a moment and try again
+ */
+
 type Registration = {
   hash: string;
 };

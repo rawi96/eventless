@@ -36,6 +36,12 @@ export default function SidebarNavigation({ children, currentPage }: Props) {
   const navigation: NavigationItem[] = [
     { name: 'Dashboard', href: '/application/dashboard', icon: HomeIcon, current: currentPage === 'Dashboard' },
     { name: 'Team', href: '/application/team', icon: UsersIcon, current: currentPage === 'Team' },
+    {
+      name: 'Documentation',
+      href: '/application/documentation',
+      icon: DocumentDuplicateIcon,
+      current: currentPage === 'Documentation',
+    },
     { name: 'Projects', href: '/application/projects', icon: FolderIcon, current: currentPage === 'Projects' },
     {
       name: 'Calendar',
@@ -43,7 +49,6 @@ export default function SidebarNavigation({ children, currentPage }: Props) {
       icon: CalendarIcon,
       current: currentPage === 'Calendar',
     },
-    { name: 'Documents', href: '/application/documents', icon: DocumentDuplicateIcon, current: currentPage === 'Documents' },
     { name: 'Reports', href: '/application/reports', icon: ChartPieIcon, current: currentPage === 'Reports' },
   ];
 

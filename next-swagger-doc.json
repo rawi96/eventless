@@ -1,0 +1,11 @@
+{
+  "apiFolder": "src/app/api",
+  "schemaFolders": ["models"],
+  "definition": {
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Eventless API",
+      "version": "1.0"
+    }
+  }
+}

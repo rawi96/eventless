@@ -1,5 +1,119 @@
 import { createAttendee, existsAttandeeForEvent, getEventById } from '@/server/services/events-service';
 import { NextRequest, NextResponse } from 'next/server';
+/**
+ * @swagger
+ * /api/events/{id}/attendee:
+ *   post:
+ *     summary: Registers an attendee for an event with answers to required questions
+ *     description: This endpoint registers an attendee for a specific event. It checks if the event exists, if registration is still open, if the attendee is already registered, and if all required questions have been answered. It requires a valid API key for authorization.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the event to register for
+ *         schema:
+ *           type: string
+ *       - in: header
+ *         name: api-key
+ *         required: true
+ *         description: API key for authorization
+ *         schema:
+ *           type: string
+ *       - in: body
+ *         name: Registration
+ *         description: The registration details including email and answers to required questions
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 email:
+ *                   type: string
+ *                   description: The email address of the attendee
+ *                   example: 'attendee@example.com'
+ *                 answers:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       questionId:
+ *                         type: string
+ *                         description: The ID of the question
+ *                         example: 'q1'
+ *                       answerText:
+ *                         type: string
+ *                         description: The answer text for the question
+ *                         example: 'Yes'
+ *     responses:
+ *       200:
+ *         description: Successfully registered the attendee
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   description: The ID of the newly created attendee
+ *                   example: 'attendee123'
+ *                 email:
+ *                   type: string
+ *                   description: The email address of the registered attendee
+ *                   example: 'attendee@example.com'
+ *                 answers:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       questionId:
+ *                         type: string
+ *                         description: The ID of the question
+ *                         example: 'q1'
+ *                       answerText:
+ *                         type: string
+ *                         description: The answer text for the question
+ *                         example: 'Yes'
+ *       400:
+ *         description: Bad request due to issues such as event not found, registration deadline exceeded, already registered, or missing required answers
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: NOT_FOUND
+ *                 message:
+ *                   type: string
+ *                   example: Event with id {id} not found or Registration is not possible anymore. deadline ended on {registrationEndDate}
+ *       401:
+ *         description: Unauthorized, invalid API key
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: UNAUTHORIZED
+ *                 message:
+ *                   type: string
+ *                   example: Your API Key is invalid.
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: INTERNAL_SERVER_ERROR
+ *                 message:
+ *                   type: string
+ *                   example: please wait a moment and try again
+ */
 
 type Registration = {
   email: string;

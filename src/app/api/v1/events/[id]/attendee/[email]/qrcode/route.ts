@@ -4,6 +4,80 @@ import { NextRequest, NextResponse } from 'next/server';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import QRCode from 'qrcode';
 
+/**
+ * @swagger
+ * /api/events/{id}/attendee/{email}/qrcode:
+ *   get:
+ *     summary: Generates a PDF with event details and a QR code for a registered attendee
+ *     description: This endpoint generates a PDF containing event details and a QR code for an attendee who is registered for the event. The QR code is created using a hash that includes the event ID, attendee email, and attendee ID. It requires a valid API key for authorization.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the event
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: email
+ *         required: true
+ *         description: The email address of the attendee
+ *         schema:
+ *           type: string
+ *       - in: header
+ *         name: api-key
+ *         required: true
+ *         description: API key for authorization
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully generated PDF with event details and QR code
+ *         content:
+ *           application/pdf:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       400:
+ *         description: Bad request due to event or attendee issues
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: NOT_FOUND
+ *                 message:
+ *                   type: string
+ *                   example: Event with id {id} not found or You are not registered for this event
+ *       401:
+ *         description: Unauthorized, invalid API key
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: UNAUTHORIZED
+ *                 message:
+ *                   type: string
+ *                   example: Your API Key is invalid.
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: INTERNAL_SERVER_ERROR
+ *                 message:
+ *                   type: string
+ *                   example: please wait a moment and try again
+ */
+
 type Registration = {
   email: string;
 };
