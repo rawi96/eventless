@@ -172,7 +172,7 @@ export const updateQrCodeStatus = async (attendeeId: string) => {
       id: attendeeId,
     },
     data: {
-      qrCodeScanned: Date.now().toLocaleString(),
+      qrCodeScanned: new Date(),
     },
   });
 };

@@ -1,7 +1,6 @@
 // pages/api/export-attendees.ts
 import { getFullEventById } from '@/server/services/events-service';
 import { parse } from 'json2csv';
-import { NextApiRequest } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {

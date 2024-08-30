@@ -3,6 +3,7 @@
 import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react';
 import {
   Bars3Icon,
+  BellAlertIcon,
   CalendarIcon,
   ChartPieIcon,
   DocumentDuplicateIcon,
@@ -42,6 +43,7 @@ export default function SidebarNavigation({ children, currentPage }: Props) {
       icon: DocumentDuplicateIcon,
       current: currentPage === 'Documentation',
     },
+    { name: 'EventHost', href: '/application/host', icon: BellAlertIcon, current: currentPage === 'EventHost' },
     { name: 'Projects', href: '/application/projects', icon: FolderIcon, current: currentPage === 'Projects' },
     {
       name: 'Calendar',

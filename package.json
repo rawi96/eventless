@@ -28,6 +28,7 @@
     "clsx": "^2.1.0",
     "flowbite": "^2.5.1",
     "flowbite-react": "^0.10.1",
+    "html5-qrcode": "^2.3.8",
     "json2csv": "^6.0.0-alpha.2",
     "next": "^14.0.4",
     "next-auth": "^4.24.7",
