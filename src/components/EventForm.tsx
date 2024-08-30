@@ -2,26 +2,35 @@
 
 import { useState } from 'react';
 import { updateEventAction } from '@/server/actions/update-event-action';
-import { Event } from '@prisma/client';
+import { CustomField, Event, Question } from '@prisma/client';
 import CustomFieldForm from './CustomFieldForm';
 import EventDetailsForm from './EventDetailsForm';
 import QuestionsForm from './QuestionsForm';
 import StepIndicator from './StepIndicator';
 
 type Props = {
-  event: Event;
+  event: Event & {
+    customFields: CustomField[];
+    questions: Question[];
+  };
 };
 
 export default function EventForm({ event }: Props) {
+  console.log(event.customFields);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     title: event.title || '',
     description: event.description || '',
     shortDescription: event.shortDescription || '',
-    eventDate: '',
-    registrationEndDate: '',
-    customField: [{ name: '', value: '' }],
-    questions: [{ questionText: '', type: 'text', attributes: '', isRequired: false }],
+    eventDate: event.eventDate || '',
+    registrationEndDate: event.registrationEndDate || '',
+    customField: event.customFields?.map((field) => ({ name: field.name, value: field.value })) || [{ name: '', value: '' }],
+    questions: event.questions?.map((question) => ({
+      questionText: question.questionText,
+      type: question.type,
+      attributes: question.attributes,
+      isRequired: question.isRequired,
+    })) || [{ questionText: '', type: 'text', attributes: '', isRequired: false }],
   });
 
   const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
